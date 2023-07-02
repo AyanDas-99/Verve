@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "685199959416",
+    "project_id": "verve-f9fb9",
+    "storage_bucket": "verve-f9fb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685199959416:android:be42e04fe79d929469148d",
+        "android_client_info": {
+          "package_name": "com.example.verve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685199959416-6i4g7aphcr3rcnk69rd52dascgovdek7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.verve",
+            "certificate_hash": "de2a316ee8b870ba6dea5cd5cb04e255153a3b8e"
+          }
+        },
+        {
+          "client_id": "685199959416-9lp9hl82sap6dv9h2n73nb54bqqlnic0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpGpOXyq2NWoJ6LvtTwkSXvSJv6NfPHck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685199959416-9lp9hl82sap6dv9h2n73nb54bqqlnic0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
