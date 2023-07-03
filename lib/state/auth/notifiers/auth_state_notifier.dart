@@ -27,7 +27,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     final email = _authenticator.email;
     state = AuthState(authResult: result, isLoading: false, userId: userId);
     // Store user in firebase storage
-    final isStored = _userStorage.storeUser(
+    await _userStorage.storeUser(
         userId: userId ?? '', displayName: displayName, email: email);
     state = AuthState(
         authResult: AuthResult.success, isLoading: false, userId: userId);

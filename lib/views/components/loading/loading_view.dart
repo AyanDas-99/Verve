@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:verve/views/components/animations/circular_loading_animation_view.dart';
 import 'package:verve/views/components/animations/dot_loading_animation_view.dart';
 
 class LoadingView {
