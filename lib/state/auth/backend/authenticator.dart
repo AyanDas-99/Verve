@@ -15,11 +15,15 @@ class Authenticator {
 
   String? get photoUrl => FirebaseAuth.instance.currentUser?.photoURL;
 
+  bool get isLoggedIn => userId != null;
+
   // Google auth
   Future<AuthResult> loginWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
     final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
+        await googleSignIn.signIn().onError((error, stackTrace) {
+      return null;
+    });
     if (googleSignInAccount == null) {
       return AuthResult.aborted;
     }

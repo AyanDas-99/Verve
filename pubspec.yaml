@@ -85,6 +85,8 @@ flutter:
     - assets/connect.svg
     - assets/making_art.svg
     - assets/singing.svg
+    - assets/circular_loading_animation.json
+    - assets/dot_loading_animation.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
