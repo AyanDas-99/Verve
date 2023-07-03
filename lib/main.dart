@@ -65,7 +65,7 @@ class MyHomePage extends StatelessWidget {
                       : FontAwesomeIcons.cross),
                   ElevatedButton(
                     onPressed: () async {
-                      final result = await ref
+                      await ref
                           .read(authStateProvider.notifier)
                           .loginWithGoogle();
                     },
