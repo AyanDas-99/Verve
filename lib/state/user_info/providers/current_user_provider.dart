@@ -6,6 +6,7 @@ import 'package:verve/state/user_info/providers/user_id_provider.dart';
 final currentUserProvider = Provider<UserInfoModel?>((ref) {
   final userId = ref.watch(userIdProvider);
   final user = ref.watch(userFromIdProvider(userId));
-
-  return user.value;
+  if (user.hasValue) {
+    return user.value;
+  }
 });

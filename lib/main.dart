@@ -7,6 +7,7 @@ import 'package:verve/state/auth/providers/auth_state_provider.dart';
 import 'package:verve/state/auth/providers/is_logged_in_provider.dart';
 import 'package:verve/state/providers/is_loading_provider.dart';
 import 'package:verve/views/components/loading/loading_view.dart';
+import 'package:verve/views/main/main_view.dart';
 import 'package:verve/views/onboarding/onboarding_view.dart';
 
 void main() async {
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
             });
 
             return ref.watch(authStateProvider).authResult == AuthResult.success
-                ? const MyHomePage()
+                ? const MainView()
                 : const OnBoardingView();
           },
         ));

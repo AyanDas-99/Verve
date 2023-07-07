@@ -11,6 +11,8 @@ class UserInfoModel {
   final List friendsList;
   final String photoUrl;
   final String photoStorageId;
+  final String bio;
+  final List favouriteTags;
 
   const UserInfoModel({
     required this.displayName,
@@ -19,16 +21,20 @@ class UserInfoModel {
     required this.friendsList,
     required this.photoUrl,
     required this.photoStorageId,
+    required this.bio,
+    required this.favouriteTags,
   });
 
   UserInfoModel.fromJson(Map<String, dynamic> json, {required UserId userId})
       : this(
           userId: userId,
-          displayName: json[FirebaseFieldNames.userId],
+          displayName: json[FirebaseFieldNames.displayName],
           email: json[FirebaseFieldNames.email],
           friendsList: json[FirebaseFieldNames.friendsList],
           photoUrl: json[FirebaseFieldNames.photoUrl],
           photoStorageId: json[FirebaseFieldNames.photoStorageId],
+          bio: json[FirebaseFieldNames.bio],
+          favouriteTags: json[FirebaseFieldNames.favouriteTags],
         );
 
   @override
@@ -38,7 +44,9 @@ class UserInfoModel {
       email == other.email &&
       IterableEquality().equals(friendsList, other.friendsList) &&
       photoUrl == other.photoUrl &&
-      photoStorageId == other.photoStorageId;
+      photoStorageId == other.photoStorageId &&
+      bio == other.bio &&
+      IterableEquality().equals(favouriteTags, other.favouriteTags);
 
   @override
   // TODO: implement hashCode
@@ -49,5 +57,7 @@ class UserInfoModel {
         friendsList,
         photoUrl,
         photoStorageId,
+        bio,
+        favouriteTags,
       ]);
 }

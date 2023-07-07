@@ -8,5 +8,7 @@ class FirebaseFieldNames {
   static String friendsList = 'friends_list';
   static String photoUrl = 'photo_url';
   static String photoStorageId = 'photo_storage_id';
+  static String bio = 'user_bio';
+  static String favouriteTags = 'favourite_tags';
   const FirebaseFieldNames._();
 }
