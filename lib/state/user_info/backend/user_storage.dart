@@ -25,7 +25,6 @@ class UserStorage {
         // user exist
         // update display name and email
         await user.docs.first.reference.update({
-          FirebaseFieldNames.displayName: displayName,
           FirebaseFieldNames.email: email,
         });
         return true;
@@ -39,6 +38,8 @@ class UserStorage {
           friendsList: [],
           photoUrl: '',
           photoStorageId: '',
+          bio: '',
+          favouriteTags: [],
         );
 
         await FirebaseFirestore.instance

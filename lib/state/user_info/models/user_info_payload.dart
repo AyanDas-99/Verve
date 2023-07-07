@@ -14,6 +14,8 @@ class UserInfoPayload extends MapView<String, dynamic> {
   final List<String> friendsList;
   final String photoUrl;
   final String photoStorageId;
+  final String bio;
+  final List<String> favouriteTags;
 
   UserInfoPayload({
     required this.displayName,
@@ -22,6 +24,8 @@ class UserInfoPayload extends MapView<String, dynamic> {
     required this.friendsList,
     required this.photoUrl,
     required this.photoStorageId,
+    required this.bio,
+    required this.favouriteTags,
   }) : super({
           FirebaseFieldNames.displayName: displayName,
           FirebaseFieldNames.userId: userId,
@@ -29,5 +33,7 @@ class UserInfoPayload extends MapView<String, dynamic> {
           FirebaseFieldNames.friendsList: friendsList,
           FirebaseFieldNames.photoUrl: photoUrl,
           FirebaseFieldNames.photoStorageId: photoStorageId,
+          FirebaseFieldNames.bio: bio,
+          FirebaseFieldNames.favouriteTags: favouriteTags,
         });
 }
