@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/auth/constants/firebase_collection_names.dart';
 import 'package:verve/state/auth/constants/firebase_field_names.dart';
@@ -27,7 +26,6 @@ class UserProfileUpdateNotifier extends StateNotifier<IsLoading> {
       // get new picture from gallery
       final File? newPhoto = await ImagePickerHelper().getImageFromGallery();
       if (newPhoto == null) {
-        print('upload cancelled....');
         isLoading = false;
         return false;
       }
@@ -48,7 +46,7 @@ class UserProfileUpdateNotifier extends StateNotifier<IsLoading> {
 
       // upload to storage
 
-      final String newFileName = Uuid().v4();
+      final String newFileName = const Uuid().v4();
 
       final imageRef = FirebaseStorage.instance
           .ref()
