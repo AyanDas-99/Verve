@@ -82,8 +82,10 @@ class UserProfileUpdateNotifier extends StateNotifier<IsLoading> {
       await _updateUserData({
         FirebaseFieldNames.displayName: name,
       });
+      isLoading = false;
       return true;
     } catch (e) {
+      isLoading = false;
       return false;
     }
   }
@@ -96,8 +98,10 @@ class UserProfileUpdateNotifier extends StateNotifier<IsLoading> {
       await _updateUserData({
         FirebaseFieldNames.bio: bio,
       });
+      isLoading = false;
       return true;
     } catch (e) {
+      isLoading = false;
       return false;
     }
   }

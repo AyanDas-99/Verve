@@ -14,5 +14,13 @@ class Strings {
   static String cancel = 'Cancel';
   static String letPeopleKnowAboutYou = 'Let people know about you';
   static String selectedTags = 'Selected tags';
-  const Strings._();
+  static String nameUpdatedSuccessfully = 'Name updated successfully!';
+  static String couldNotUpdateName = 'Could not update name!';
+  static String bioUpdateSuccessfully = 'Bio updated successfully!';
+  static String couldNotUpdateBio = 'Could not update bio!';
+  static String updatedFavouriteTags = 'Updated favourite tags!';
+  static String couldNotUpdateFavouriteTags =
+      'Could not update favourite tags!';
+
+  Strings._();
 }

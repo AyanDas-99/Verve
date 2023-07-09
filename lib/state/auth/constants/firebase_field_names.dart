@@ -20,5 +20,6 @@ class FirebaseFieldNames {
   static String originalFileUrl = 'original_file_url';
   static String originalFileStorageId = 'original_file_storage_id';
   static String aspectRatio = 'aspect_ratio';
+  static String createdAt = 'created_at';
   const FirebaseFieldNames._();
 }

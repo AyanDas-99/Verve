@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:verve/state/auth/constants/firebase_field_names.dart';
 import 'package:verve/state/enums/file_type.dart';
@@ -17,6 +18,7 @@ class Post {
   final String thumbnailUrl;
   final String thumbnailStorageId;
   final double aspectRatio;
+  final DateTime createdAt;
   const Post({
     required this.postId,
     required this.postedBy,
@@ -29,6 +31,7 @@ class Post {
     required this.thumbnailUrl,
     required this.thumbnailStorageId,
     required this.aspectRatio,
+    required this.createdAt,
   });
 
   Post.fromJson(Map<String, dynamic> json)
@@ -47,6 +50,7 @@ class Post {
           thumbnailUrl: json[FirebaseFieldNames.thumbnailUrl],
           thumbnailStorageId: json[FirebaseFieldNames.thumbnailStorageId],
           aspectRatio: json[FirebaseFieldNames.aspectRatio],
+          createdAt: (json[FirebaseFieldNames.createdAt] as Timestamp).toDate(),
         );
 
   @override
@@ -61,7 +65,8 @@ class Post {
       originalFileStorageId == other.originalFileStorageId &&
       thumbnailUrl == other.thumbnailUrl &&
       thumbnailStorageId == other.thumbnailStorageId &&
-      aspectRatio == other.aspectRatio;
+      aspectRatio == other.aspectRatio &&
+      createdAt == other.createdAt;
 
   @override
   // TODO: implement hashCode
@@ -77,5 +82,6 @@ class Post {
         thumbnailUrl,
         thumbnailStorageId,
         aspectRatio,
+        createdAt,
       ]);
 }

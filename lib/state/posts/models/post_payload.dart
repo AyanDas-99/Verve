@@ -1,4 +1,5 @@
 import 'dart:collection' show MapView;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:verve/state/auth/constants/firebase_field_names.dart';
 import 'package:verve/state/enums/file_type.dart';
@@ -28,5 +29,6 @@ class PostPayload extends MapView<String, dynamic> {
           FirebaseFieldNames.thumbnailUrl: thumbnailUrl,
           FirebaseFieldNames.thumbnailStorageId: thumbnailStorageId,
           FirebaseFieldNames.aspectRatio: aspectRatio,
+          FirebaseFieldNames.createdAt: FieldValue.serverTimestamp(),
         });
 }

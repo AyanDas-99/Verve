@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/auth/providers/auth_state_provider.dart';
+import 'package:verve/state/enums/file_type.dart';
+import 'package:verve/state/image_upload/helper/image_picker_helper.dart';
+import 'package:verve/state/post_upload/providers/post_upload_provider.dart';
+import 'package:verve/state/user_info/providers/user_id_provider.dart';
 import 'package:verve/views/components/logo/logo_text.dart';
 import 'package:verve/views/tabs/current_user_profile/current_user_profile_view.dart';
 
@@ -49,7 +53,27 @@ class MainView extends StatelessWidget {
             ),
             Container(
               child: Center(
-                child: Text('bar 2'),
+                child: Consumer(builder: (context, WidgetRef ref, child) {
+                  return TextButton(
+                    child: Text('Post'),
+                    onPressed: () async {
+                      final file =
+                          await ImagePickerHelper().getImageFromGallery();
+                      if (file == null) {
+                        print('No file selected!!!');
+                        return;
+                      }
+                      final userId = ref.watch(userIdProvider);
+                      ref.read(postUploadProvider.notifier).upload(
+                          postedBy: userId,
+                          title: 'My 1st post!',
+                          message: "This post is for testing only",
+                          allowComments: true,
+                          fileType: FileType.image,
+                          file: file);
+                    },
+                  );
+                }),
               ),
             ),
             const CurrentUserProfileView(),
