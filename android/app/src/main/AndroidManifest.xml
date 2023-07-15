@@ -3,6 +3,9 @@
         android:label="verve"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- for video player -->
+        android:usesCleartextTraffic="true"
+        <!-- end -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

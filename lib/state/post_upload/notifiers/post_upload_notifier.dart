@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -34,10 +33,13 @@ class PostUploadNotifier extends StateNotifier<IsLoading> {
     try {
       late Uint8List thumbnailUint8List;
 
+      late String collectionToUpload;
+
       // check if image or video
       // Get thumbnail
       switch (fileType) {
         case FileType.image:
+          collectionToUpload = FirebaseCollectionNames.images;
           final fileAsImage = img.decodeImage(file.readAsBytesSync());
           if (fileAsImage == null) {
             isLoading = false;
@@ -49,6 +51,7 @@ class PostUploadNotifier extends StateNotifier<IsLoading> {
           thumbnailUint8List = Uint8List.fromList(thumbnailData);
           break;
         case FileType.video:
+          collectionToUpload = FirebaseCollectionNames.videos;
           final thumbnail = await VideoThumbnail.thumbnailData(
             video: file.path,
             imageFormat: ImageFormat.JPEG,
@@ -79,7 +82,7 @@ class PostUploadNotifier extends StateNotifier<IsLoading> {
       final originalFileRef = FirebaseStorage.instance
           .ref()
           .child(postedBy)
-          .child(FirebaseCollectionNames.images)
+          .child(collectionToUpload)
           .child(fileName);
 
       final thumbnailUploadTask =

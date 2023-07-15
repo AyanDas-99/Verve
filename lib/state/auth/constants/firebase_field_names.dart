@@ -15,8 +15,8 @@ class FirebaseFieldNames {
   static String message = 'message';
   static String allowComments = 'allow_comments';
   static String fileType = 'file_type';
-  static String thumbnailUrl = 'file_url';
-  static String thumbnailStorageId = 'file_storage_id';
+  static String thumbnailUrl = 'thumbnail_url';
+  static String thumbnailStorageId = 'thumbnail_storage_id';
   static String originalFileUrl = 'original_file_url';
   static String originalFileStorageId = 'original_file_storage_id';
   static String aspectRatio = 'aspect_ratio';
