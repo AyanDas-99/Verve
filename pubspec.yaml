@@ -51,12 +51,13 @@ dependencies:
   collection: ^1.17.1
   intl: ^0.18.1
   video_thumbnail: ^0.5.3
-  video_player: ^2.6.1
+  video_player: ^2.7.0
   lottie: ^2.4.0
   share_plus: ^7.0.2
   url_launcher: ^6.1.11
   flutter_svg: ^2.0.7
   google_fonts: ^4.0.4
+  chewie: ^1.7.0
 
 dev_dependencies:
   flutter_test:

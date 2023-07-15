@@ -11,4 +11,10 @@ class ImagePickerHelper {
         await ImagePicker().pickImage(source: ImageSource.gallery).toFile();
     return file;
   }
+
+  Future<File?> getVideoFromGallery() async {
+    final file =
+        await ImagePicker().pickVideo(source: ImageSource.gallery).toFile();
+    return file;
+  }
 }

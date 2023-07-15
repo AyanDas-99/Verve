@@ -10,5 +10,16 @@ class FirebaseFieldNames {
   static String photoStorageId = 'photo_storage_id';
   static String bio = 'user_bio';
   static String favouriteTags = 'favourite_tags';
+  static String postId = 'post_id';
+  static String title = 'title';
+  static String message = 'message';
+  static String allowComments = 'allow_comments';
+  static String fileType = 'file_type';
+  static String thumbnailUrl = 'thumbnail_url';
+  static String thumbnailStorageId = 'thumbnail_storage_id';
+  static String originalFileUrl = 'original_file_url';
+  static String originalFileStorageId = 'original_file_storage_id';
+  static String aspectRatio = 'aspect_ratio';
+  static String createdAt = 'created_at';
   const FirebaseFieldNames._();
 }

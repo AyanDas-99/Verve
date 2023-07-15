@@ -14,6 +14,9 @@ import 'package:verve/views/components/circular_profile_photo.dart';
 import 'package:verve/views/components/dialogs/add_favourite_dialog.dart';
 import 'package:verve/views/components/dialogs/text_update_dialog_model.dart';
 import 'package:verve/views/components/padded_divider.dart';
+import 'package:verve/views/components/snackbars/failure_snackbar.dart';
+import 'package:verve/views/components/snackbars/snackbar_model.dart';
+import 'package:verve/views/components/snackbars/success_snackbar.dart';
 import 'package:verve/views/components/text/regular_text.dart';
 import 'package:verve/views/components/text/title_text.dart';
 import 'package:verve/views/constants/strings.dart';
@@ -80,6 +83,7 @@ class UserProfileView extends ConsumerWidget {
                           ),
 
                         // Show edit button if isCurrentUser is true
+                        // Edit user name button
                         if (isCurrentUser)
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
@@ -95,10 +99,20 @@ class UserProfileView extends ConsumerWidget {
                                     title: Strings.enterNewName,
                                   ).present(context);
                                   if (updatedName != null) {
-                                    ref
+                                    final isNameUpdated = await ref
                                         .read(
                                             userProfileUpdateProvider.notifier)
                                         .updateName(updatedName);
+
+                                    if (isNameUpdated && context.mounted) {
+                                      SuccessSnackBar(
+                                              Strings.nameUpdatedSuccessfully)
+                                          .show(context);
+                                    } else if (context.mounted) {
+                                      FailureSnackBar(
+                                              Strings.couldNotUpdateName)
+                                          .show(context);
+                                    }
                                   }
                                 }),
                           )
@@ -140,9 +154,17 @@ class UserProfileView extends ConsumerWidget {
                             title: Strings.letPeopleKnowAboutYou,
                           ).present(context);
                           if (updatedBio != null) {
-                            ref
+                            final isUpdated = await ref
                                 .read(userProfileUpdateProvider.notifier)
                                 .updateBio(updatedBio);
+
+                            if (isUpdated && context.mounted) {
+                              SuccessSnackBar(Strings.bioUpdateSuccessfully)
+                                  .show(context);
+                            } else if (context.mounted) {
+                              FailureSnackBar(Strings.couldNotUpdateBio)
+                                  .show(context);
+                            }
                           }
                         }),
                   ],
@@ -167,15 +189,22 @@ class UserProfileView extends ConsumerWidget {
                               allTags: allTags,
                               title: Strings.favoriteTags,
                             ).present(context);
-                            print(toAdd);
                             if (toAdd == null) {
                               return;
                             }
                             final tags = toAdd.toList() as List<String>;
-                            final added = await ref
+                            final isUpdated = await ref
                                 .read(userProfileUpdateProvider.notifier)
                                 .updateFavourites(tags);
-                            print(added);
+
+                            if (isUpdated && context.mounted) {
+                              SuccessSnackBar(Strings.updatedFavouriteTags)
+                                  .show(context);
+                            } else if (context.mounted) {
+                              FailureSnackBar(
+                                      Strings.couldNotUpdateFavouriteTags)
+                                  .show(context);
+                            }
                           },
                           icon: Icons.edit)
                   ],
