@@ -19,6 +19,7 @@ class Post {
   final String thumbnailStorageId;
   final double aspectRatio;
   final DateTime createdAt;
+  final String tag;
   const Post({
     required this.postId,
     required this.postedBy,
@@ -32,6 +33,7 @@ class Post {
     required this.thumbnailStorageId,
     required this.aspectRatio,
     required this.createdAt,
+    required this.tag,
   });
 
   Post.fromJson(Map<String, dynamic> json)
@@ -51,6 +53,7 @@ class Post {
           thumbnailStorageId: json[FirebaseFieldNames.thumbnailStorageId],
           aspectRatio: json[FirebaseFieldNames.aspectRatio],
           createdAt: (json[FirebaseFieldNames.createdAt] as Timestamp).toDate(),
+          tag: json[FirebaseFieldNames.tag],
         );
 
   @override
@@ -66,7 +69,8 @@ class Post {
       thumbnailUrl == other.thumbnailUrl &&
       thumbnailStorageId == other.thumbnailStorageId &&
       aspectRatio == other.aspectRatio &&
-      createdAt == other.createdAt;
+      createdAt == other.createdAt &&
+      tag == other.tag;
 
   @override
   // TODO: implement hashCode
@@ -83,5 +87,6 @@ class Post {
         thumbnailStorageId,
         aspectRatio,
         createdAt,
+        tag,
       ]);
 }

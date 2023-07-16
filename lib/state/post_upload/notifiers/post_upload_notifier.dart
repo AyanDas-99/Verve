@@ -27,6 +27,7 @@ class PostUploadNotifier extends StateNotifier<IsLoading> {
     required bool allowComments,
     required FileType fileType,
     required File file,
+    required String tag,
   }) async {
     isLoading = true;
 
@@ -109,6 +110,7 @@ class PostUploadNotifier extends StateNotifier<IsLoading> {
         thumbnailUrl: thumbnailUrl,
         thumbnailStorageId: thumbnailStorageId,
         aspectRatio: aspectRatio,
+        tag: tag,
       );
 
       await FirebaseFirestore.instance

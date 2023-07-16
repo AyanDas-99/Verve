@@ -18,6 +18,7 @@ class PostPayload extends MapView<String, dynamic> {
     required String thumbnailUrl,
     required String thumbnailStorageId,
     required double aspectRatio,
+    required String tag,
   }) : super({
           FirebaseFieldNames.userId: postedBy,
           FirebaseFieldNames.title: title,
@@ -30,5 +31,6 @@ class PostPayload extends MapView<String, dynamic> {
           FirebaseFieldNames.thumbnailStorageId: thumbnailStorageId,
           FirebaseFieldNames.aspectRatio: aspectRatio,
           FirebaseFieldNames.createdAt: FieldValue.serverTimestamp(),
+          FirebaseFieldNames.tag: tag,
         });
 }

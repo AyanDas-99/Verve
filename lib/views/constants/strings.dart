@@ -12,6 +12,7 @@ class Strings {
   static String userNotFound = 'User not found!';
   static String enterNewName = 'Enter new name';
   static String cancel = 'Cancel';
+  static String confirm = 'Confirm';
   static String letPeopleKnowAboutYou = 'Let people know about you';
   static String selectedTags = 'Selected tags';
   static String nameUpdatedSuccessfully = 'Name updated successfully!';
@@ -30,6 +31,8 @@ class Strings {
   static String post = 'Post';
   static String fillAllFields = 'Please fill all fields';
   static String selectImageOrVideoFile = 'Select an image or a video file';
-
+  static String areYouSureYouWantToLogOut = 'Are you sure you want to log out?';
+  static String areYouSureYouWantToPost = 'Are you sure you want to post?';
+  static String selectTag = 'Select tag';
   Strings._();
 }

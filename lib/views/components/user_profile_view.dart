@@ -12,6 +12,8 @@ import 'package:verve/views/components/animations/search_not_found_with_text_ani
 import 'package:verve/views/components/button.dart';
 import 'package:verve/views/components/circular_profile_photo.dart';
 import 'package:verve/views/components/dialogs/add_favourite_dialog.dart';
+import 'package:verve/views/components/dialogs/get_confirmation_dialog_model.dart';
+import 'package:verve/views/components/dialogs/log_out_dialog.dart';
 import 'package:verve/views/components/dialogs/text_update_dialog_model.dart';
 import 'package:verve/views/components/padded_divider.dart';
 import 'package:verve/views/components/snackbars/failure_snackbar.dart';
@@ -131,8 +133,15 @@ class UserProfileView extends ConsumerWidget {
                   button(
                     backgroundColor: Colors.red.shade400,
                     color: Colors.white,
-                    onPress: () {
-                      ref.read(authStateProvider.notifier).logOut();
+                    onPress: () async {
+                      if (context.mounted) {
+                        final shouldLogOut =
+                            await LogOutDialog().present(context);
+                        print(shouldLogOut);
+                        if (shouldLogOut) {
+                          ref.read(authStateProvider.notifier).logOut();
+                        }
+                      }
                     },
                     text: Strings.logout,
                   )
