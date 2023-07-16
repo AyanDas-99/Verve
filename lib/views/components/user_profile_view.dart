@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/auth/providers/auth_state_provider.dart';
+import 'package:verve/state/posts/providers/posts_by_user_id_provider.dart';
 import 'package:verve/state/providers/creative_field_list_provider.dart';
 import 'package:verve/state/user_info/providers/user_from_id_provider.dart';
 import 'package:verve/state/user_info/providers/user_id_provider.dart';
 import 'package:verve/state/user_info/providers/user_profile_update_provider.dart';
 import 'package:verve/state/user_info/typedefs/user_id.dart';
 import 'package:verve/views/components/animations/profile_search_loading_animation_view.dart';
+import 'package:verve/views/components/animations/search_not_found_animation_view.dart';
 import 'package:verve/views/components/animations/search_not_found_with_text_animation_view.dart';
 import 'package:verve/views/components/button.dart';
 import 'package:verve/views/components/circular_profile_photo.dart';
@@ -16,6 +18,8 @@ import 'package:verve/views/components/dialogs/get_confirmation_dialog_model.dar
 import 'package:verve/views/components/dialogs/log_out_dialog.dart';
 import 'package:verve/views/components/dialogs/text_update_dialog_model.dart';
 import 'package:verve/views/components/padded_divider.dart';
+import 'package:verve/views/components/post_list_view.dart';
+import 'package:verve/views/components/post_tile.dart';
 import 'package:verve/views/components/snackbars/failure_snackbar.dart';
 import 'package:verve/views/components/snackbars/snackbar_model.dart';
 import 'package:verve/views/components/snackbars/success_snackbar.dart';
@@ -35,6 +39,8 @@ class UserProfileView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userFromIdProvider(userId));
     final myUserId = ref.watch(userIdProvider);
+    final userPosts = ref.watch(postsByUserIdProvider(userId));
+
     return user.when(
       data: (user) {
         final bool isCurrentUser = myUserId == userId;
@@ -232,6 +238,24 @@ class UserProfileView extends ConsumerWidget {
                             ))
                         .toList()
                   ],
+                ),
+
+                paddedDivider(),
+
+                titleText(Strings.posts),
+
+                const SizedBox(
+                  height: 10,
+                ),
+                ...userPosts.when(
+                  data: (posts) => posts
+                      .map((post) => Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: PostTile(post),
+                          ))
+                      .toList(),
+                  error: (error, stackTrace) => [SearchNotFoundAnimationView()],
+                  loading: () => [CircularProgressIndicator()],
                 ),
 
                 // bottom space

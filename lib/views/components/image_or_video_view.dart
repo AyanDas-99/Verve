@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:verve/state/enums/file_type.dart';
 import 'package:verve/state/image_upload/extensions/get_aspect_ratio.dart';
-import 'package:verve/views/components/screens/video_player_view.dart';
+import 'package:verve/views/components/video_player_view.dart';
 
 class ImageOrVideoView extends HookWidget {
   final File? file;

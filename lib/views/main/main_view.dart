@@ -5,7 +5,7 @@ import 'package:verve/state/image_upload/helper/image_picker_helper.dart';
 import 'package:verve/state/providers/is_floating_action_visible_provider.dart';
 import 'package:verve/views/components/logo/logo_text.dart';
 import 'package:verve/views/components/screens/new_post_view.dart';
-import 'package:verve/views/components/screens/video_player_view.dart';
+import 'package:verve/views/components/video_player_view.dart';
 import 'package:verve/views/tabs/current_user_profile/current_user_profile_view.dart';
 
 class MainView extends ConsumerWidget {

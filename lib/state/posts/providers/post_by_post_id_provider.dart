@@ -17,7 +17,8 @@ final postByPostIdProvider =
       .snapshots()
       .listen((snapshot) {
     if (snapshot.docs.isNotEmpty) {
-      final post = Post.fromJson(snapshot.docs.first.data());
+      final post =
+          Post.fromJson(snapshot.docs.first.id, snapshot.docs.first.data());
       controller.sink.add(post);
     }
   });

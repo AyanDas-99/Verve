@@ -36,9 +36,9 @@ class Post {
     required this.tag,
   });
 
-  Post.fromJson(Map<String, dynamic> json)
+  Post.fromJson(PostId postId, Map<String, dynamic> json)
       : this(
-          postId: json[FirebaseFieldNames.postId],
+          postId: postId,
           postedBy: json[FirebaseFieldNames.userId],
           title: json[FirebaseFieldNames.title],
           message: json[FirebaseFieldNames.message],
