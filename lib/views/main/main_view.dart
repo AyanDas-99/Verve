@@ -73,12 +73,11 @@ class MainView extends ConsumerWidget {
                 Center(
                   child: Consumer(builder: (context, WidgetRef ref, child) {
                     return TextButton(
-                      child: Text('Post'),
+                      child: const Text('Post'),
                       onPressed: () async {
                         final file =
                             await ImagePickerHelper().getVideoFromGallery();
                         if (file == null) {
-                          print('No file selected!!!');
                           return;
                         }
                         if (context.mounted) {

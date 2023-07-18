@@ -8,7 +8,7 @@ class OnboardingContentView extends StatelessWidget {
   final String description;
   const OnboardingContentView({
     super.key,
-    this.title = null,
+    this.title,
     required this.description,
     required this.photo,
   });

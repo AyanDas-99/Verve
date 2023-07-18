@@ -37,7 +37,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   Future<void> logOut() async {
     state = state.copyWithLoading(true);
     await _authenticator.logOut();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     state = const AuthState.unknown();
   }
 }

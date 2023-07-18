@@ -73,7 +73,6 @@ class Post {
       tag == other.tag;
 
   @override
-  // TODO: implement hashCode
   int get hashCode => Object.hashAll([
         postId,
         postedBy,

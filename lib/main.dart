@@ -1,10 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/auth/models/auth_result.dart';
 import 'package:verve/state/auth/providers/auth_state_provider.dart';
-import 'package:verve/state/auth/providers/is_logged_in_provider.dart';
 import 'package:verve/state/providers/is_loading_provider.dart';
 import 'package:verve/views/components/loading/loading_view.dart';
 import 'package:verve/views/main/main_view.dart';
@@ -45,41 +43,5 @@ class MyApp extends StatelessWidget {
                 : const OnBoardingView();
           },
         ));
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Consumer(
-          builder: (context, ref, child) => Column(
-                children: [
-                  ref.watch(isLoadingProvider)
-                      ? const CircularProgressIndicator()
-                      : const SizedBox(),
-                  FaIcon(ref.watch(isLoggedInProvider)
-                      ? FontAwesomeIcons.check
-                      : FontAwesomeIcons.cross),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await ref
-                          .read(authStateProvider.notifier)
-                          .loginWithGoogle();
-                    },
-                    child: Text('login'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await ref.read(authStateProvider.notifier).logOut();
-                    },
-                    child: Text('logout'),
-                  ),
-                ],
-              )),
-    );
   }
 }

@@ -21,7 +21,6 @@ class Like {
       likedBy == other.likedBy && postId == other.postId;
 
   @override
-  // TODO: implement hashCode
   int get hashCode => Object.hashAll([
         likedBy,
         postId,

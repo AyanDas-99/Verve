@@ -16,13 +16,11 @@ class ImageOrVideoView extends HookWidget {
     final isReady = useState(false);
 
     useEffect(() {
-      print(fileType);
       if (fileType == FileType.image && file != null) {
         if (aspectRatio == null) {
           Image.file(file!)
               .getImageAspectRatio()
               .then((value) => aspectRatio = value);
-          print('Aspect ratio is; ' + aspectRatio.toString());
           isReady.value = true;
         } else {
           isReady.value = true;

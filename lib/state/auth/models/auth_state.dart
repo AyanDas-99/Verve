@@ -9,7 +9,7 @@ class AuthState {
   final AuthResult? authResult;
   final IsLoading isLoading;
   final UserId? userId;
-  AuthState({
+  const AuthState({
     required this.authResult,
     required this.isLoading,
     required this.userId,
@@ -31,6 +31,5 @@ class AuthState {
       runtimeType == other.runtimeType;
 
   @override
-  // TODO: implement hashCode
   int get hashCode => Object.hashAll([authResult, isLoading, userId]);
 }

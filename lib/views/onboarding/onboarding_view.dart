@@ -79,7 +79,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                         : () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LoginView(),
+                              builder: (context) => const LoginView(),
                             )),
                     child: Text(
                       Strings.login,

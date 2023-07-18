@@ -18,14 +18,13 @@ final postsByUserIdProvider = StreamProvider.family
       .snapshots()
       .listen((snapshot) {
     if (snapshot.docs.isNotEmpty) {
-      print(snapshot.docs);
       final Iterable<Post> posts = snapshot.docs
           .where((element) => !element.metadata.hasPendingWrites)
           .map((doc) => Post.fromJson(doc.id, doc.data()))
           .toList();
       controller.sink.add(posts);
     } else {
-      controller.sink.addError(PostsNotFoundException);
+      controller.sink.addError(postsNotFoundException);
     }
   });
 

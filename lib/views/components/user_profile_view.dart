@@ -152,7 +152,6 @@ class UserProfileView extends ConsumerWidget {
                         if (context.mounted) {
                           final shouldLogOut =
                               await LogOutDialog().present(context);
-                          print(shouldLogOut);
                           if (shouldLogOut) {
                             ref.read(authStateProvider.notifier).logOut();
                           }
@@ -269,7 +268,7 @@ class UserProfileView extends ConsumerWidget {
                         .toList(),
                     error: (error, stackTrace) =>
                         [SearchNotFoundAnimationView()],
-                    loading: () => [CircularProgressIndicator()],
+                    loading: () => [const CircularProgressIndicator()],
                   ),
 
                   // bottom space

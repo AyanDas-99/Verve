@@ -34,7 +34,9 @@ class LoginView extends StatelessWidget {
                     await ref
                         .read(authStateProvider.notifier)
                         .loginWithGoogle();
-                    Navigator.pop(context);
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
                   },
                   child: Container(
                       decoration: BoxDecoration(

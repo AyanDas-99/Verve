@@ -1,1 +1,1 @@
-Exception PostsNotFoundException = Exception('Posts not found!');
+Exception postsNotFoundException = Exception('Posts not found!');

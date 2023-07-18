@@ -188,7 +188,8 @@ class NewPostView extends HookConsumerWidget {
                           : Colors.blueGrey.shade100,
                       onPress: (!canPost.value)
                           ? () {
-                              FailureSnackBar('Fill all fields').show(context);
+                              const FailureSnackBar('Fill all fields')
+                                  .show(context);
                             }
                           : () async {
                               if (context.mounted) {

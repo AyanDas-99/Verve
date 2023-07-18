@@ -39,7 +39,7 @@ class UserProfileUpdateNotifier extends StateNotifier<IsLoading> {
             .child(currentUser!.photoStorageId)
             .delete();
       } catch (e) {
-        print('No file');
+        //
       }
       final list = newPhoto.readAsBytesSync();
       final Uint8List data = Uint8List.fromList(list);
