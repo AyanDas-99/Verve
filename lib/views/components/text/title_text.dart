@@ -6,7 +6,7 @@ Widget titleText(String text) {
     text,
     style: TextStyle(
       fontFamily: GoogleFonts.josefinSans().fontFamily,
-      fontSize: 25,
+      fontSize: 20,
       fontWeight: FontWeight.bold,
     ),
   );

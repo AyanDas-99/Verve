@@ -14,6 +14,7 @@ final postsByUserIdProvider = StreamProvider.family
   final sub = FirebaseFirestore.instance
       .collection(FirebaseCollectionNames.posts)
       .where(FirebaseFieldNames.userId, isEqualTo: userId)
+      .orderBy(FirebaseFieldNames.createdAt, descending: true)
       .snapshots()
       .listen((snapshot) {
     if (snapshot.docs.isNotEmpty) {

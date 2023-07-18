@@ -6,9 +6,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/enums/file_type.dart';
 import 'package:verve/state/posts/models/post.dart';
 import 'package:verve/state/user_info/providers/user_from_id_provider.dart';
+import 'package:verve/state/user_info/providers/user_id_provider.dart';
 import 'package:verve/views/components/animations/circular_loading_animation_view.dart';
 import 'package:verve/views/components/circular_profile_photo.dart';
+import 'package:verve/views/components/padded_divider.dart';
 import 'package:verve/views/components/text/regular_text.dart';
+import 'package:verve/views/components/user_profile_view.dart';
 import 'package:verve/views/components/video_player_view.dart';
 
 class PostTile extends HookConsumerWidget {
@@ -21,104 +24,146 @@ class PostTile extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userFromIdProvider(post.postedBy));
+    final currentUserId = ref.watch(userIdProvider);
+
+    // checks if post is posted by current user
+    final bool postedByUser = post.postedBy == currentUserId;
 
     final postFocused = useState(false);
 
     return Container(
-      margin: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 5,
-          ),
-        ],
-        borderRadius: BorderRadius.circular(10),
+      padding: const EdgeInsets.symmetric(
+        vertical: 8.0,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // user name and photo
-            user.when(
-              data: (user) => Row(
-                children: [
-                  circularProfilePhoto(user!.photoUrl, 13),
-                  regularText(user.displayName),
-                ],
+      margin: const EdgeInsets.only(
+        bottom: 30.0,
+      ),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            width: 0.2,
+          )),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // user name and photo
+          user.when(
+            data: (user) => Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child: InkWell(
+                onTap: (postedByUser)
+                    ? null
+                    : () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserProfileView(
+                              userId: user!.userId,
+                            ),
+                          ),
+                        ),
+                child: Row(
+                  children: [
+                    circularProfilePhoto(user!.photoUrl, 24),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    regularText(user.displayName),
+                  ],
+                ),
               ),
-              error: (error, stackTrace) => regularText('Error getting user'),
-              loading: () => circularLoadingAnimation(),
             ),
+            error: (error, stackTrace) => regularText('Error getting user'),
+            loading: () => circularLoadingAnimation(),
+          ),
 
-            const SizedBox(
-              height: 10,
-            ),
+          paddedDivider(),
 
-            // Post title
+          // Post title
 
-            Text(
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
               post.title,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
                 fontFamily: GoogleFonts.josefinSans().fontFamily,
               ),
             ),
+          ),
 
-            const SizedBox(
-              height: 10,
+          // Message text
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 8.0,
+              top: 5.0,
             ),
+            child: regularText(post.message),
+          ),
 
-            if (postFocused.value) ...[
-              // Image or video
-              if (post.fileType == FileType.image)
-                AspectRatio(
-                  aspectRatio: post.aspectRatio,
-                  child: Image.network(
-                    post.originalFileUrl,
-                  ),
-                ),
+          paddedDivider(),
 
-              if (post.fileType == FileType.video)
-                VideoPlayerView(
-                  true,
-                  videoUrl: post.originalFileUrl,
-                ),
-            ],
+          // Media content
 
-            if (!postFocused.value)
-              GestureDetector(
-                onTap: () => postFocused.value = true,
+          if (postFocused.value) ...[
+            // Image or video
+            if (post.fileType == FileType.image)
+              AspectRatio(
+                aspectRatio: post.aspectRatio,
                 child: Image.network(
-                  post.thumbnailUrl,
-                  scale: 0.6,
+                  post.originalFileUrl,
                 ),
               ),
 
-            const SizedBox(
-              height: 10,
+            if (post.fileType == FileType.video)
+              VideoPlayerView(
+                true,
+                videoUrl: post.originalFileUrl,
+              ),
+          ],
+
+          if (!postFocused.value)
+            GestureDetector(
+              onTap: () => postFocused.value = true,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.network(
+                    post.thumbnailUrl,
+                    scale: 0.3,
+                  ),
+                  if (post.fileType == FileType.video)
+                    const FaIcon(
+                      FontAwesomeIcons.circlePlay,
+                      color: Colors.white,
+                    ),
+                ],
+              ),
             ),
 
-            // Message text
-            regularText(post.message),
+          paddedDivider(),
 
-            const SizedBox(
-              height: 10,
+          // Like and comment icons
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 8.0,
+              bottom: 8.0,
             ),
-
-            // Like and comment icons
-            Row(
+            child: Row(
               children: [
                 Column(
                   children: [
                     IconButton(
                       onPressed: () {},
-                      icon: FaIcon(FontAwesomeIcons.heart),
+                      icon: const FaIcon(
+                        FontAwesomeIcons.heart,
+                        size: 15,
+                      ),
                     ),
-                    regularText('1 like'),
+                    regularText(
+                      '1 like',
+                      fontSize: 12,
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -128,15 +173,21 @@ class PostTile extends HookConsumerWidget {
                   children: [
                     IconButton(
                       onPressed: () {},
-                      icon: FaIcon(FontAwesomeIcons.comment),
+                      icon: const FaIcon(
+                        FontAwesomeIcons.comment,
+                        size: 15,
+                      ),
                     ),
-                    regularText('1 comment'),
+                    regularText(
+                      '1 comment',
+                      fontSize: 12,
+                    ),
                   ],
                 )
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
