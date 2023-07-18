@@ -1,6 +1,3 @@
-import 'package:flutter/foundation.dart' show immutable;
-
-@immutable
 class Strings {
   static String logout = 'Log out';
   static String aboutMe = 'About me';
