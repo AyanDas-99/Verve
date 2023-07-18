@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/posts/providers/all_posts_provider.dart';
 import 'package:verve/views/components/animations/circular_loading_animation_view.dart';
 import 'package:verve/views/components/animations/search_not_found_with_text_animation_view.dart';
-import 'package:verve/views/components/post_tile.dart';
+import 'package:verve/views/components/post/post_tile.dart';
 
 class HomeTabView extends ConsumerWidget {
   const HomeTabView({super.key});

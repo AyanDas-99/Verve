@@ -18,7 +18,7 @@ import 'package:verve/views/components/dialogs/get_confirmation_dialog_model.dar
 import 'package:verve/views/components/dialogs/log_out_dialog.dart';
 import 'package:verve/views/components/dialogs/text_update_dialog_model.dart';
 import 'package:verve/views/components/padded_divider.dart';
-import 'package:verve/views/components/post_tile.dart';
+import 'package:verve/views/components/post/post_tile.dart';
 import 'package:verve/views/components/snackbars/failure_snackbar.dart';
 import 'package:verve/views/components/snackbars/snackbar_model.dart';
 import 'package:verve/views/components/snackbars/success_snackbar.dart';

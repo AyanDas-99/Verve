@@ -4,12 +4,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/enums/file_type.dart';
+import 'package:verve/state/likes/providers/has_liked_post_provider.dart';
+import 'package:verve/state/likes/providers/like_dislike_post_provider.dart';
+import 'package:verve/state/likes/providers/likes_count_provider.dart';
 import 'package:verve/state/posts/models/post.dart';
 import 'package:verve/state/user_info/providers/user_from_id_provider.dart';
 import 'package:verve/state/user_info/providers/user_id_provider.dart';
 import 'package:verve/views/components/animations/circular_loading_animation_view.dart';
 import 'package:verve/views/components/circular_profile_photo.dart';
 import 'package:verve/views/components/padded_divider.dart';
+import 'package:verve/views/components/post/like_count_text.dart';
 import 'package:verve/views/components/text/regular_text.dart';
 import 'package:verve/views/components/user_profile_view.dart';
 import 'package:verve/views/components/video_player_view.dart';
@@ -25,6 +29,8 @@ class PostTile extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userFromIdProvider(post.postedBy));
     final currentUserId = ref.watch(userIdProvider);
+    final postLikesCount = ref.watch(likesCountProvider(post.postId));
+    final hasUserLiked = ref.watch(hasLikedPostProvider(post.postId));
 
     // checks if post is posted by current user
     final bool postedByUser = post.postedBy == currentUserId;
@@ -154,16 +160,29 @@ class PostTile extends HookConsumerWidget {
                 Column(
                   children: [
                     IconButton(
-                      onPressed: () {},
-                      icon: const FaIcon(
-                        FontAwesomeIcons.heart,
-                        size: 15,
+                      onPressed: () {
+                        ref.read(likeDislidePostProvider(post.postId));
+                      },
+                      icon: hasUserLiked.when(
+                        data: (hasLiked) => (!hasLiked)
+                            ? const FaIcon(
+                                FontAwesomeIcons.heart,
+                                size: 20,
+                              )
+                            : const FaIcon(
+                                FontAwesomeIcons.solidHeart,
+                                size: 20,
+                                color: Colors.red,
+                              ),
+                        error: (e, st) =>
+                            const FaIcon(FontAwesomeIcons.heartCrack),
+                        loading: () => const CircularProgressIndicator(),
                       ),
                     ),
-                    regularText(
-                      '1 like',
-                      fontSize: 12,
-                    ),
+                    postLikesCount.when(
+                        data: (count) => likeCountText(count),
+                        error: (e, st) => likeCountText(0),
+                        loading: () => const CircularProgressIndicator()),
                   ],
                 ),
                 const SizedBox(
@@ -175,7 +194,7 @@ class PostTile extends HookConsumerWidget {
                       onPressed: () {},
                       icon: const FaIcon(
                         FontAwesomeIcons.comment,
-                        size: 15,
+                        size: 20,
                       ),
                     ),
                     regularText(
