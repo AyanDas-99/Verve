@@ -9,5 +9,6 @@ class FirebaseCollectionNames {
   static String videos = 'videos';
   static String thumbnails = 'thumbnails';
   static String likes = 'likes';
+  static String comments = 'comments';
   const FirebaseCollectionNames._();
 }

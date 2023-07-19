@@ -22,5 +22,7 @@ class FirebaseFieldNames {
   static String aspectRatio = 'aspect_ratio';
   static String createdAt = 'created_at';
   static String tag = 'tag';
+  static String commentType = 'comment_type';
+  static String replyTo = 'reply_to';
   const FirebaseFieldNames._();
 }
