@@ -18,7 +18,7 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 class PostUploadNotifier extends StateNotifier<IsLoading> {
   PostUploadNotifier() : super(false);
 
-  set isLoading(bool value) => state = value;
+  set isLoading(bool value) => {if (mounted) state = value};
 
   Future<bool> upload({
     required UserId postedBy,
@@ -27,6 +27,7 @@ class PostUploadNotifier extends StateNotifier<IsLoading> {
     required bool allowComments,
     required FileType fileType,
     required File file,
+    required String tag,
   }) async {
     isLoading = true;
 
@@ -109,6 +110,7 @@ class PostUploadNotifier extends StateNotifier<IsLoading> {
         thumbnailUrl: thumbnailUrl,
         thumbnailStorageId: thumbnailStorageId,
         aspectRatio: aspectRatio,
+        tag: tag,
       );
 
       await FirebaseFirestore.instance

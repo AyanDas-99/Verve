@@ -35,11 +35,11 @@ class UserStorage {
           displayName: displayName,
           userId: userId,
           email: email ?? '',
-          friendsList: [],
+          friendsList: const [],
           photoUrl: '',
           photoStorageId: '',
           bio: '',
-          favouriteTags: [],
+          favouriteTags: const [],
         );
 
         await FirebaseFirestore.instance

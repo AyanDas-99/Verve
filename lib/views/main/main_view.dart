@@ -5,8 +5,9 @@ import 'package:verve/state/image_upload/helper/image_picker_helper.dart';
 import 'package:verve/state/providers/is_floating_action_visible_provider.dart';
 import 'package:verve/views/components/logo/logo_text.dart';
 import 'package:verve/views/components/screens/new_post_view.dart';
-import 'package:verve/views/components/screens/video_player_view.dart';
+import 'package:verve/views/components/video_player_view.dart';
 import 'package:verve/views/tabs/current_user_profile/current_user_profile_view.dart';
+import 'package:verve/views/tabs/home_tab/home_tab_view.dart';
 
 class MainView extends ConsumerWidget {
   const MainView({super.key});
@@ -23,7 +24,7 @@ class MainView extends ConsumerWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NewPostView(),
+                        builder: (context) => const NewPostView(),
                       ));
                 },
                 child: const Icon(Icons.add),
@@ -68,28 +69,27 @@ class MainView extends ConsumerWidget {
             ],
             body: TabBarView(
               children: [
-                const Center(
-                  child: Text('Tab 1'),
-                ),
+                const HomeTabView(),
                 Center(
                   child: Consumer(builder: (context, WidgetRef ref, child) {
                     return TextButton(
-                      child: Text('Post'),
+                      child: const Text('Post'),
                       onPressed: () async {
                         final file =
                             await ImagePickerHelper().getVideoFromGallery();
                         if (file == null) {
-                          print('No file selected!!!');
                           return;
                         }
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => VideoPlayerView(
-                                false,
-                                videoFile: file,
-                              ),
-                            ));
+                        if (context.mounted) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VideoPlayerView(
+                                  false,
+                                  videoFile: file,
+                                ),
+                              ));
+                        }
                         // final userId = ref.watch(userIdProvider);
                         // ref.read(postUploadProvider.notifier).upload(
                         //     postedBy: userId,

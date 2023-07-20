@@ -38,12 +38,7 @@ extension Present<String> on AddFavouriteDialog {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: const BoxDecoration(
-                        border: Border.symmetric(
-                      vertical: BorderSide(),
-                      horizontal: BorderSide(),
-                    )),
+                    padding: const EdgeInsets.all(5),
                     constraints: BoxConstraints(
                       maxHeight: MediaQuery.of(context).size.height * 0.25,
                     ),

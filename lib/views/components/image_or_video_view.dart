@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:verve/state/enums/file_type.dart';
 import 'package:verve/state/image_upload/extensions/get_aspect_ratio.dart';
-import 'package:verve/views/components/screens/video_player_view.dart';
-import 'package:verve/views/components/text/regular_text.dart';
+import 'package:verve/views/components/video_player_view.dart';
 
 class ImageOrVideoView extends HookWidget {
   final File? file;
@@ -17,13 +16,11 @@ class ImageOrVideoView extends HookWidget {
     final isReady = useState(false);
 
     useEffect(() {
-      print(fileType);
       if (fileType == FileType.image && file != null) {
         if (aspectRatio == null) {
           Image.file(file!)
               .getImageAspectRatio()
               .then((value) => aspectRatio = value);
-          print('Aspect ratio is; ' + aspectRatio.toString());
           isReady.value = true;
         } else {
           isReady.value = true;

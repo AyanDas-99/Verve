@@ -42,14 +42,13 @@ class UserInfoModel {
       displayName == other.displayName &&
       userId == other.userId &&
       email == other.email &&
-      IterableEquality().equals(friendsList, other.friendsList) &&
+      const IterableEquality().equals(friendsList, other.friendsList) &&
       photoUrl == other.photoUrl &&
       photoStorageId == other.photoStorageId &&
       bio == other.bio &&
-      IterableEquality().equals(favouriteTags, other.favouriteTags);
+      const IterableEquality().equals(favouriteTags, other.favouriteTags);
 
   @override
-  // TODO: implement hashCode
   int get hashCode => Object.hashAll([
         displayName,
         userId,
