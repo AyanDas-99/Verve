@@ -46,6 +46,7 @@ class PostAndDeleteCommentsNotifier extends StateNotifier<IsLoading> {
 
   Future<bool> deleteComment({required CommentId commentId}) async {
     try {
+      isLoading = true;
       final commentsRef = FirebaseFirestore.instance
           .collection(FirebaseCollectionNames.comments);
 
@@ -67,7 +68,7 @@ class PostAndDeleteCommentsNotifier extends StateNotifier<IsLoading> {
           await doc.reference.delete();
         }
       });
-
+      isLoading = false;
       return true;
     } catch (e) {
       return false;

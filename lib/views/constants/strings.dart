@@ -6,6 +6,7 @@ class Strings {
   static String addTag = 'Add Tag';
   static String posts = 'Posts';
   static String save = 'Save';
+  static String send = 'Send';
   static String userNotFound = 'User not found!';
   static String enterNewName = 'Enter new name';
   static String cancel = 'Cancel';
@@ -31,5 +32,10 @@ class Strings {
   static String areYouSureYouWantToLogOut = 'Are you sure you want to log out?';
   static String areYouSureYouWantToPost = 'Are you sure you want to post?';
   static String selectTag = 'Select tag';
+  static String commentSection = 'Comment section';
+  static String replyTo = 'Reply to ';
+  static String reply = 'Reply';
+  static String replies = 'Replies';
+  static String deleteComment = 'Delete comment';
   Strings._();
 }

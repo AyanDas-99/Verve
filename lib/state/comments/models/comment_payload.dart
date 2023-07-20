@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:verve/state/auth/constants/firebase_field_names.dart';
 import 'package:verve/state/comments/typedefs/comment_id.dart';
 import 'package:verve/state/posts/typedefs/post_id.dart';
@@ -18,5 +19,6 @@ class CommentPayload extends MapView<String, dynamic> {
           FirebaseFieldNames.replyTo: replyTo,
           FirebaseFieldNames.postId: postId,
           FirebaseFieldNames.userId: commentBy,
+          FirebaseFieldNames.createdAt: FieldValue.serverTimestamp(),
         });
 }

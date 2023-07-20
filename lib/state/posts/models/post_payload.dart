@@ -32,6 +32,5 @@ class PostPayload extends MapView<String, dynamic> {
           FirebaseFieldNames.aspectRatio: aspectRatio,
           FirebaseFieldNames.createdAt: FieldValue.serverTimestamp(),
           FirebaseFieldNames.tag: tag,
-          FirebaseFieldNames.createdAt: FieldValue.serverTimestamp(),
         });
 }

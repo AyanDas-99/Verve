@@ -3,19 +3,18 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verve/state/comments/providers/comment_count_provider.dart';
 import 'package:verve/state/enums/file_type.dart';
 import 'package:verve/state/likes/providers/has_liked_post_provider.dart';
 import 'package:verve/state/likes/providers/like_dislike_post_provider.dart';
 import 'package:verve/state/likes/providers/likes_count_provider.dart';
 import 'package:verve/state/posts/models/post.dart';
-import 'package:verve/state/user_info/providers/user_from_id_provider.dart';
-import 'package:verve/state/user_info/providers/user_id_provider.dart';
-import 'package:verve/views/components/animations/circular_loading_animation_view.dart';
-import 'package:verve/views/components/circular_profile_photo.dart';
+import 'package:verve/views/components/comments/comments_screen_view.dart';
 import 'package:verve/views/components/padded_divider.dart';
 import 'package:verve/views/components/post/like_count_text.dart';
+import 'package:verve/views/components/post/post_count_text.dart';
 import 'package:verve/views/components/text/regular_text.dart';
-import 'package:verve/views/components/user_profile_view.dart';
+import 'package:verve/views/components/user_image_and_name.dart';
 import 'package:verve/views/components/video_player_view.dart';
 
 class PostTile extends HookConsumerWidget {
@@ -27,13 +26,11 @@ class PostTile extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userFromIdProvider(post.postedBy));
-    final currentUserId = ref.watch(userIdProvider);
     final postLikesCount = ref.watch(likesCountProvider(post.postId));
     final hasUserLiked = ref.watch(hasLikedPostProvider(post.postId));
+    final commentCount = ref.watch(commentCountProvider(post.postId));
 
     // checks if post is posted by current user
-    final bool postedByUser = post.postedBy == currentUserId;
 
     final postFocused = useState(false);
 
@@ -53,34 +50,8 @@ class PostTile extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // user name and photo
-          user.when(
-            data: (user) => Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-              child: InkWell(
-                onTap: (postedByUser)
-                    ? null
-                    : () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UserProfileView(
-                              userId: user!.userId,
-                            ),
-                          ),
-                        ),
-                child: Row(
-                  children: [
-                    circularProfilePhoto(user!.photoUrl, 24),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    regularText(user.displayName),
-                  ],
-                ),
-              ),
-            ),
-            error: (error, stackTrace) => regularText('Error getting user'),
-            loading: () => circularLoadingAnimation(),
-          ),
+
+          UserImageAndName(post.postedBy),
 
           paddedDivider(),
 
@@ -191,15 +162,22 @@ class PostTile extends HookConsumerWidget {
                 Column(
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CommentsScreenView(postId: post.postId)));
+                      },
                       icon: const FaIcon(
                         FontAwesomeIcons.comment,
                         size: 20,
                       ),
                     ),
-                    regularText(
-                      '1 comment',
-                      fontSize: 12,
+                    commentCount.when(
+                      data: (count) => commentCountText(count),
+                      error: (e, st) => commentCountText(0),
+                      loading: () => const CircularProgressIndicator(),
                     ),
                   ],
                 )

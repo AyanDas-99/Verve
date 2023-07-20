@@ -16,9 +16,11 @@ final commentsByPostIdProvider = StreamProvider.family
       .where(FirebaseFieldNames.commentType,
           isEqualTo: CommentType.postComment.name)
       .where(FirebaseFieldNames.postId, isEqualTo: postId)
+      .orderBy(FirebaseFieldNames.createdAt, descending: false)
       .snapshots()
       .listen((snapshot) {
     final comments = snapshot.docs
+        .where((element) => !element.metadata.hasPendingWrites)
         .map((doc) => Comment.fromJson(commentId: doc.id, json: doc.data()));
 
     controller.sink.add(comments);
