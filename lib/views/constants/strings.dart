@@ -37,5 +37,6 @@ class Strings {
   static String reply = 'Reply';
   static String replies = 'Replies';
   static String deleteComment = 'Delete comment';
+  static String deletePost = 'Delete post';
   Strings._();
 }

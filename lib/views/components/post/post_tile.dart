@@ -10,7 +10,9 @@ import 'package:verve/state/likes/providers/like_dislike_post_provider.dart';
 import 'package:verve/state/likes/providers/likes_count_provider.dart';
 import 'package:verve/state/posts/models/post.dart';
 import 'package:verve/views/components/comments/comments_screen_view.dart';
+import 'package:verve/views/components/date_time_view.dart';
 import 'package:verve/views/components/padded_divider.dart';
+import 'package:verve/views/components/popup_menu/post_popup_menu.dart';
 import 'package:verve/views/components/post/like_count_text.dart';
 import 'package:verve/views/components/post/post_count_text.dart';
 import 'package:verve/views/components/text/regular_text.dart';
@@ -49,9 +51,28 @@ class PostTile extends HookConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // user name and photo
+          Row(
+            children: [
+              // user name and photo
 
-          UserImageAndName(post.postedBy),
+              UserImageAndName(post.postedBy),
+
+              Spacer(),
+
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: DateTimeView(
+                  post.createdAt,
+                  fontSize: 10,
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: PostPopupMenu(post),
+              )
+            ],
+          ),
 
           paddedDivider(),
 

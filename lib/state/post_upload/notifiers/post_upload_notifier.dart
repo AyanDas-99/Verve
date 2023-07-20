@@ -18,7 +18,7 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 class PostUploadNotifier extends StateNotifier<IsLoading> {
   PostUploadNotifier() : super(false);
 
-  set isLoading(bool value) => state = value;
+  set isLoading(bool value) => {if (mounted) state = value};
 
   Future<bool> upload({
     required UserId postedBy,
