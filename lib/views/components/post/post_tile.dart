@@ -61,9 +61,18 @@ class PostTile extends HookConsumerWidget {
 
               Padding(
                 padding: const EdgeInsets.only(right: 10),
-                child: DateTimeView(
-                  post.createdAt,
-                  fontSize: 10,
+                child: Column(
+                  children: [
+                    DateTimeView(
+                      post.createdAt,
+                      fontSize: 10,
+                    ),
+                    regularText(
+                      post.tag,
+                      fontSize: 12,
+                      color: Colors.grey,
+                    )
+                  ],
                 ),
               ),
 
