@@ -38,5 +38,7 @@ class Strings {
   static String replies = 'Replies';
   static String deleteComment = 'Delete comment';
   static String deletePost = 'Delete post';
+  static String addFriend = 'Add Friend';
+  static String removeFriend = 'Remove Friend';
   Strings._();
 }

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/auth/providers/auth_state_provider.dart';
+import 'package:verve/state/friends/providers/add_friend_provider.dart';
+import 'package:verve/state/friends/providers/is_friend_provider.dart';
+import 'package:verve/state/friends/providers/remove_friend_provider.dart';
 import 'package:verve/state/posts/providers/posts_by_user_id_provider.dart';
 import 'package:verve/state/providers/creative_field_list_provider.dart';
 import 'package:verve/state/user_info/providers/user_from_id_provider.dart';
@@ -17,6 +20,7 @@ import 'package:verve/views/components/dialogs/add_favourite_dialog.dart';
 import 'package:verve/views/components/dialogs/get_confirmation_dialog_model.dart';
 import 'package:verve/views/components/dialogs/log_out_dialog.dart';
 import 'package:verve/views/components/dialogs/text_update_dialog_model.dart';
+import 'package:verve/views/components/friends_list_view.dart';
 import 'package:verve/views/components/padded_divider.dart';
 import 'package:verve/views/components/post/post_tile.dart';
 import 'package:verve/views/components/snackbars/failure_snackbar.dart';
@@ -39,6 +43,7 @@ class UserProfileView extends ConsumerWidget {
     final user = ref.watch(userFromIdProvider(userId));
     final myUserId = ref.watch(userIdProvider);
     final userPosts = ref.watch(postsByUserIdProvider(userId));
+    final isFriend = ref.watch(isFriendProvider(userId));
 
     return user.when(
       data: (user) {
@@ -132,10 +137,48 @@ class UserProfileView extends ConsumerWidget {
                                       }
                                     }
                                   }),
-                            )
+                            ),
+
+                          if (!isCurrentUser)
+                            isFriend.when(
+                              data: (isFriend) {
+                                return (isFriend)
+                                    ? button(
+                                        backgroundColor: Colors.red,
+                                        text: Strings.removeFriend,
+                                        color: Colors.white,
+                                        onPress: () async {
+                                          ref.watch(
+                                              removeFriendProvider(userId));
+                                        },
+                                      )
+                                    : button(
+                                        backgroundColor: Colors.white,
+                                        text: Strings.addFriend,
+                                        onPress: () {
+                                          ref.watch(addFriendProvider(userId));
+                                        },
+                                      );
+                              },
+                              error: (e, st) =>
+                                  regularText('error loading button'),
+                              loading: () => const CircularProgressIndicator(),
+                            ),
                         ],
                       ),
                     ],
+                  ),
+
+                  // Friends count
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  FriendsListView(user.friendsList)));
+                    },
+                    child: regularText('${user.friendsList.length} friends'),
                   ),
 
                   // Show account log out section only if it is currentUser account
