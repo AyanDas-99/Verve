@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/auth/providers/auth_state_provider.dart';
-import 'package:verve/state/friends/providers/add_friend_provider.dart';
+import 'package:verve/state/friends/providers/addAndRemoveFriendsProvider.dart';
 import 'package:verve/state/friends/providers/is_friend_provider.dart';
-import 'package:verve/state/friends/providers/remove_friend_provider.dart';
 import 'package:verve/state/posts/providers/posts_by_user_id_provider.dart';
 import 'package:verve/state/providers/creative_field_list_provider.dart';
 import 'package:verve/state/user_info/providers/user_from_id_provider.dart';
@@ -148,17 +147,45 @@ class UserProfileView extends ConsumerWidget {
                                         text: Strings.removeFriend,
                                         color: Colors.white,
                                         onPress: () async {
-                                          ref.watch(
-                                              removeFriendProvider(userId));
+                                          final isRemoved = await ref
+                                              .read(addAndRemoveFriendsProvider
+                                                  .notifier)
+                                              .removeFriend(userId);
+
+                                          if (context.mounted) {
+                                            if (isRemoved) {
+                                              SuccessSnackBar(Strings
+                                                      .removedFromFriendList)
+                                                  .show(context);
+                                            } else {
+                                              FailureSnackBar(Strings
+                                                      .couldNotRemoveFromFriendList)
+                                                  .show(context);
+                                            }
+                                          }
                                         },
                                       )
                                     : button(
                                         backgroundColor: Colors.white,
                                         text: Strings.addFriend,
-                                        onPress: () {
-                                          ref.watch(addFriendProvider(userId));
-                                        },
-                                      );
+                                        onPress: () async {
+                                          final isAdded = await ref
+                                              .read(addAndRemoveFriendsProvider
+                                                  .notifier)
+                                              .addFriend(userId);
+
+                                          if (context.mounted) {
+                                            if (isAdded) {
+                                              SuccessSnackBar(
+                                                      Strings.addedAsFriend)
+                                                  .show(context);
+                                            } else {
+                                              FailureSnackBar(Strings
+                                                      .couldNotAddAsFriend)
+                                                  .show(context);
+                                            }
+                                          }
+                                        });
                               },
                               error: (e, st) =>
                                   regularText('error loading button'),

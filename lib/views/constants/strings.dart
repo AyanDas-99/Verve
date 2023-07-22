@@ -41,5 +41,15 @@ class Strings {
   static String addFriend = 'Add Friend';
   static String removeFriend = 'Remove Friend';
   static String enterSearchTerm = 'Enter search term';
+  static String commentPosted = 'Comment posted';
+  static String couldNotPostComment = 'Could not post comment';
+  static String writeYourComment = 'Write your comment';
+  static String addedAsFriend = 'Added as friend';
+  static String couldNotAddAsFriend = 'Could not add as friend';
+  static String removedFromFriendList = 'Removed from friend list';
+  static String couldNotRemoveFromFriendList =
+      'Could not remove from friend list';
+  static String commentsAreDisabledForThisPost =
+      'Comments are disabled for this post';
   Strings._();
 }

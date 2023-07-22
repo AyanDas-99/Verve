@@ -18,6 +18,7 @@ import 'package:verve/views/components/post/post_count_text.dart';
 import 'package:verve/views/components/text/regular_text.dart';
 import 'package:verve/views/components/user_image_and_name.dart';
 import 'package:verve/views/components/video_player_view.dart';
+import 'package:verve/views/constants/strings.dart';
 
 class PostTile extends HookConsumerWidget {
   final Post post;
@@ -189,28 +190,32 @@ class PostTile extends HookConsumerWidget {
                 const SizedBox(
                   width: 20,
                 ),
-                Column(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CommentsScreenView(postId: post.postId)));
-                      },
-                      icon: const FaIcon(
-                        FontAwesomeIcons.comment,
-                        size: 20,
+                if (post.allowComments)
+                  Column(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CommentsScreenView(postId: post.postId)));
+                        },
+                        icon: const FaIcon(
+                          FontAwesomeIcons.comment,
+                          size: 20,
+                        ),
                       ),
-                    ),
-                    commentCount.when(
-                      data: (count) => commentCountText(count),
-                      error: (e, st) => commentCountText(0),
-                      loading: () => const CircularProgressIndicator(),
-                    ),
-                  ],
-                )
+                      commentCount.when(
+                        data: (count) => commentCountText(count),
+                        error: (e, st) => commentCountText(0),
+                        loading: () => const CircularProgressIndicator(),
+                      ),
+                    ],
+                  ),
+                if (!post.allowComments)
+                  regularText(Strings.commentsAreDisabledForThisPost,
+                      fontSize: 12, color: Colors.grey),
               ],
             ),
           )
