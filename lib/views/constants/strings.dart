@@ -40,5 +40,6 @@ class Strings {
   static String deletePost = 'Delete post';
   static String addFriend = 'Add Friend';
   static String removeFriend = 'Remove Friend';
+  static String enterSearchTerm = 'Enter search term';
   Strings._();
 }

@@ -294,6 +294,7 @@ class UserProfileView extends ConsumerWidget {
 
                   paddedDivider(),
 
+                  // user posts
                   titleText(Strings.posts),
 
                   const SizedBox(
