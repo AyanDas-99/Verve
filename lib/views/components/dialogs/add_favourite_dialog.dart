@@ -30,6 +30,8 @@ extension Present<String> on AddFavouriteDialog {
           return Consumer(builder: (context, WidgetRef ref, child) {
             final toBeAdded = ref.watch(toBeAddedListProvider);
             return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               title: regularText(
                 title.toString(),
                 fontSize: 20,

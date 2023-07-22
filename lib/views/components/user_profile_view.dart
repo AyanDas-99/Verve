@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/auth/providers/auth_state_provider.dart';
-import 'package:verve/state/friends/providers/addAndRemoveFriendsProvider.dart';
+import 'package:verve/state/friends/providers/add_and_remove_friends_provider.dart';
 import 'package:verve/state/friends/providers/is_friend_provider.dart';
 import 'package:verve/state/posts/providers/posts_by_user_id_provider.dart';
 import 'package:verve/state/providers/creative_field_list_provider.dart';
@@ -338,7 +338,7 @@ class UserProfileView extends ConsumerWidget {
                             ))
                         .toList(),
                     error: (error, stackTrace) =>
-                        [SearchNotFoundAnimationView()],
+                        [searchNotFoundAnimationView()],
                     loading: () => [const CircularProgressIndicator()],
                   ),
 

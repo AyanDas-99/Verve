@@ -51,5 +51,8 @@ class Strings {
       'Could not remove from friend list';
   static String commentsAreDisabledForThisPost =
       'Comments are disabled for this post';
+  static String youSearchedFor = 'You searched for';
+  static String encounteredAnError = 'Encountered some error';
+  static String postNotFound = 'Post not found';
   Strings._();
 }

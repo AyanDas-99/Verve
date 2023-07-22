@@ -61,49 +61,54 @@ class CommentsScreenView extends HookConsumerWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: CommentView(comments.elementAt(index)),
                             )),
-                    error: (error, stackTrace) => SearchNotFoundAnimationView(),
-                    loading: () => const CircularProgressIndicator(),
+                    error: (error, stackTrace) => searchNotFoundAnimationView(),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 50,
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: TextField(
-                      controller: messageController,
-                      decoration: InputDecoration(
-                        labelText: Strings.writeYourComment,
-                      ),
-                    )),
-                    IconButton(
-                      onPressed: (!isReadyToSend.value)
-                          ? null
-                          : () async {
-                              final commented = await ref
-                                  .read(postAndDeleteCommentsProvider.notifier)
-                                  .postComment(
-                                    message: messageController.text,
-                                    commentType: CommentType.postComment,
-                                    replyTo: null,
-                                    postId: postId,
-                                  );
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: SizedBox(
+                  height: 50,
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: TextField(
+                        controller: messageController,
+                        decoration: InputDecoration(
+                            labelText: Strings.writeYourComment,
+                            border: const OutlineInputBorder()),
+                      )),
+                      IconButton(
+                        onPressed: (!isReadyToSend.value)
+                            ? null
+                            : () async {
+                                final commented = await ref
+                                    .read(
+                                        postAndDeleteCommentsProvider.notifier)
+                                    .postComment(
+                                      message: messageController.text,
+                                      commentType: CommentType.postComment,
+                                      replyTo: null,
+                                      postId: postId,
+                                    );
 
-                              if (context.mounted) {
-                                if (commented) {
-                                  SuccessSnackBar(Strings.commentPosted)
-                                      .show(context);
-                                } else {
-                                  FailureSnackBar(Strings.couldNotPostComment)
-                                      .show(context);
+                                if (context.mounted) {
+                                  if (commented) {
+                                    SuccessSnackBar(Strings.commentPosted)
+                                        .show(context);
+                                  } else {
+                                    FailureSnackBar(Strings.couldNotPostComment)
+                                        .show(context);
+                                  }
                                 }
-                              }
-                              messageController.clear();
-                            },
-                      icon: const Icon(Icons.send),
-                    ),
-                  ],
+                                messageController.clear();
+                              },
+                        icon: const Icon(Icons.send),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

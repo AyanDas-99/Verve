@@ -58,29 +58,32 @@ class PostTile extends HookConsumerWidget {
 
               UserImageAndName(post.postedBy),
 
-              Spacer(),
+              const Spacer(),
 
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Column(
-                  children: [
-                    DateTimeView(
-                      post.createdAt,
-                      fontSize: 10,
-                    ),
-                    regularText(
-                      post.tag,
-                      fontSize: 12,
-                      color: Colors.grey,
-                    )
-                  ],
-                ),
+              DateTimeView(
+                post.createdAt,
+                fontSize: 10,
               ),
 
               Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: PostPopupMenu(post),
               )
+            ],
+          ),
+
+          // tag
+          Row(
+            children: [
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: regularText(
+                  post.tag,
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+              ),
             ],
           ),
 

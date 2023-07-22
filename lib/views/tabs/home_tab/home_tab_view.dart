@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/posts/providers/all_posts_provider.dart';
 import 'package:verve/state/user_info/providers/current_user_provider.dart';
-import 'package:verve/views/components/animations/circular_loading_animation_view.dart';
+import 'package:verve/views/components/animations/profile_search_loading_animation_view.dart';
 import 'package:verve/views/components/animations/search_not_found_with_text_animation_view.dart';
 import 'package:verve/views/components/post/post_tile.dart';
+import 'package:verve/views/constants/strings.dart';
 
 class HomeTabView extends ConsumerWidget {
   const HomeTabView({super.key});
@@ -26,19 +27,22 @@ class HomeTabView extends ConsumerWidget {
             if (currentUser != null) {
               final postsToShow = posts.where(
                   (post) => currentUser.favouriteTags.contains(post.tag));
-
+              if (postsToShow.isEmpty) {
+                return searchNotFoundWithTextAnimationView(
+                    text: Strings.postNotFound);
+              }
               return ListView.builder(
                 itemBuilder: (context, index) =>
                     PostTile(postsToShow.elementAt(index)),
                 itemCount: postsToShow.length,
               );
             } else {
-              return CircularProgressIndicator();
+              return profileSearchLoadingAnimationView();
             }
           },
           error: (error, stackTrace) =>
-              searchNotFoundWithTextAnimationView(text: 'Not found'),
-          loading: () => circularLoadingAnimation(),
+              searchNotFoundWithTextAnimationView(text: Strings.postNotFound),
+          loading: () => profileSearchLoadingAnimationView(),
         ),
       ),
     );

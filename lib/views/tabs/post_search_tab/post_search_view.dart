@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:verve/views/components/padded_divider.dart';
 import 'package:verve/views/components/searched_posts_list_view.dart';
+import 'package:verve/views/components/text/regular_text.dart';
 import 'package:verve/views/constants/strings.dart';
 
 class PostSearchView extends HookConsumerWidget {
@@ -31,10 +33,14 @@ class PostSearchView extends HookConsumerWidget {
             TextField(
               controller: searchController,
               decoration: InputDecoration(
-                labelText: Strings.enterSearchTerm,
-              ),
+                  labelText: Strings.enterSearchTerm,
+                  border: const OutlineInputBorder()),
             ),
-            // regularText(searchTerm.value),
+            paddedDivider(height: 20),
+            if (searchTerm.value.isNotEmpty) ...[
+              regularText("${Strings.youSearchedFor} '${searchTerm.value}'"),
+              paddedDivider(height: 20),
+            ],
             SearchedPostsListView(searchTerm.value),
           ],
         ),

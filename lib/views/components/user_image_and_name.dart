@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:verve/state/user_info/providers/user_from_id_provider.dart';
 import 'package:verve/state/user_info/providers/user_id_provider.dart';
 import 'package:verve/state/user_info/typedefs/user_id.dart';
-import 'package:verve/views/components/animations/circular_loading_animation_view.dart';
 import 'package:verve/views/components/circular_profile_photo.dart';
 import 'package:verve/views/components/text/regular_text.dart';
 import 'package:verve/views/components/user_profile_view.dart';
@@ -53,7 +52,7 @@ class UserImageAndName extends ConsumerWidget {
         );
       },
       error: (error, stackTrace) => regularText('Error getting user'),
-      loading: () => circularLoadingAnimation(),
+      loading: () => const CircularProgressIndicator(),
     );
   }
 }

@@ -23,12 +23,17 @@ extension Present<String> on TextUpdateDialogModel {
       context: context,
       builder: (context) {
         return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: regularText(
             title.toString(),
             fontSize: 20,
           ),
           content: TextField(
             controller: controller,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+            ),
           ),
           actions: [
             button(

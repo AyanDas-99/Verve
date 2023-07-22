@@ -33,10 +33,8 @@ class CommentView extends HookConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-          color: backgroundColor ?? Colors.grey.shade100,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(width: 0.4)),
+      decoration:
+          BoxDecoration(color: backgroundColor, border: Border.all(width: 0.4)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -58,7 +56,7 @@ class CommentView extends HookConsumerWidget {
           paddedDivider(),
           Padding(
             padding: const EdgeInsets.only(left: 10.0),
-            child: regularText(comment.message, fontSize: 12),
+            child: regularText(comment.message),
           ),
           paddedDivider(),
           Row(
@@ -88,11 +86,11 @@ class CommentView extends HookConsumerWidget {
                     fontSize: 12,
                   ),
                 ),
-                error: (e, st) => Text('error loading reply'),
+                error: (e, st) => regularText(Strings.encounteredAnError),
                 loading: () => const CircularProgressIndicator(),
               ),
 
-              Spacer(),
+              const Spacer(),
 
               // show replies button
               replies.when(
@@ -129,7 +127,7 @@ class CommentView extends HookConsumerWidget {
                         ),
                       )
                     : Container(),
-                error: (e, st) => Text('Error loading replies'),
+                error: (e, st) => const Text('Error loading replies'),
                 loading: () => const CircularProgressIndicator(),
               ),
             ],
@@ -143,11 +141,11 @@ class CommentView extends HookConsumerWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: CommentView(
                             replies.elementAt(index),
-                            backgroundColor: Colors.blueGrey.shade100,
+                            backgroundColor: Colors.blueGrey.shade50,
                           ),
                         )),
               ),
-              error: (error, st) => Text('Not found'),
+              error: (error, st) => const Text('Not found'),
               loading: () => const CircularProgressIndicator(),
             ),
         ],

@@ -20,6 +20,8 @@ extension Present<String> on SendReplyDialog {
       context: context,
       builder: (context) {
         return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: regularText(
             title.toString(),
             fontSize: 20,

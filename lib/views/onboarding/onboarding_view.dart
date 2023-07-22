@@ -15,6 +15,23 @@ class OnBoardingView extends StatefulWidget {
 }
 
 class _OnBoardingViewState extends State<OnBoardingView> {
+  // on-boarding data
+  final screens = [
+    OnboardingScreenData(
+      title: Strings.verve,
+      description: Strings.unleashYourCreativity,
+      photo: AssetFiles.makingArtSvg,
+    ),
+    OnboardingScreenData(
+      description: Strings.expressYourSelfThrough,
+      photo: AssetFiles.singingSvg,
+    ),
+    OnboardingScreenData(
+      description: Strings.connectWithLikeMinded,
+      photo: AssetFiles.connectSvg,
+    )
+  ];
+
   late PageController _pageController;
 
   int pageIndex = 0;
@@ -59,10 +76,13 @@ class _OnBoardingViewState extends State<OnBoardingView> {
               ),
             ),
           ),
+
+          // bottom bar
           SizedBox(
             height: 80,
             child: Row(
               children: [
+                // indicator dots
                 ...List.generate(screens.length, (index) {
                   return Padding(
                     padding: const EdgeInsets.all(5),
@@ -70,6 +90,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   );
                 }),
                 const Spacer(),
+
+                // Login button ()
                 AnimatedOpacity(
                   opacity: opacity,
                   duration: const Duration(milliseconds: 300),
@@ -87,21 +109,24 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     ),
                   ),
                 ),
-                const Spacer(),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        shape: const CircleBorder(),
-                        backgroundColor: Colors.purple),
-                    onPressed: () {
-                      _pageController.nextPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.ease);
-                    },
-                    child: const FaIcon(
-                      FontAwesomeIcons.arrowRightLong,
-                      size: 15,
-                      color: Colors.white,
-                    )),
+                // const Spacer(),
+
+                if (pageIndex != 2)
+                  // Next button
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: const CircleBorder(),
+                          backgroundColor: Colors.purple),
+                      onPressed: () {
+                        _pageController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.ease);
+                      },
+                      child: const FaIcon(
+                        FontAwesomeIcons.arrowRightLong,
+                        size: 15,
+                        color: Colors.white,
+                      )),
               ],
             ),
           )
@@ -109,21 +134,4 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       ),
     );
   }
-
-  // on-boarding data
-  final screens = [
-    OnboardingScreenData(
-      title: Strings.verve,
-      description: Strings.unleashYourCreativity,
-      photo: AssetFiles.makingArtSvg,
-    ),
-    OnboardingScreenData(
-      description: Strings.expressYourSelfThrough,
-      photo: AssetFiles.singingSvg,
-    ),
-    OnboardingScreenData(
-      description: Strings.connectWithLikeMinded,
-      photo: AssetFiles.connectSvg,
-    )
-  ];
 }
