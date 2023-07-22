@@ -8,5 +8,7 @@ final currentUserProvider = Provider<UserInfoModel?>((ref) {
   final user = ref.watch(userFromIdProvider(userId));
   if (user.hasValue) {
     return user.value;
+  } else {
+    return null;
   }
 });

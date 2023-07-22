@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:verve/state/image_upload/helper/image_picker_helper.dart';
 import 'package:verve/state/providers/is_floating_action_visible_provider.dart';
 import 'package:verve/views/components/logo/logo_text.dart';
 import 'package:verve/views/components/screens/new_post_view.dart';
-import 'package:verve/views/components/video_player_view.dart';
 import 'package:verve/views/tabs/current_user_profile/current_user_profile_view.dart';
 import 'package:verve/views/tabs/home_tab/home_tab_view.dart';
+import 'package:verve/views/tabs/post_search_tab/post_search_view.dart';
 
 class MainView extends ConsumerWidget {
   const MainView({super.key});
@@ -55,54 +55,23 @@ class MainView extends ConsumerWidget {
                   padding: EdgeInsets.all(10),
                   tabs: [
                     Tab(
-                      icon: Icon(Icons.home),
+                      icon: FaIcon(FontAwesomeIcons.houseChimneyWindow),
                     ),
                     Tab(
-                      icon: Icon(Icons.person),
+                      icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
                     ),
                     Tab(
-                      icon: Icon(Icons.settings),
+                      icon: FaIcon(FontAwesomeIcons.user),
                     ),
                   ],
                 ),
               )
             ],
-            body: TabBarView(
+            body: const TabBarView(
               children: [
-                const HomeTabView(),
-                Center(
-                  child: Consumer(builder: (context, WidgetRef ref, child) {
-                    return TextButton(
-                      child: const Text('Post'),
-                      onPressed: () async {
-                        final file =
-                            await ImagePickerHelper().getVideoFromGallery();
-                        if (file == null) {
-                          return;
-                        }
-                        if (context.mounted) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => VideoPlayerView(
-                                  false,
-                                  videoFile: file,
-                                ),
-                              ));
-                        }
-                        // final userId = ref.watch(userIdProvider);
-                        // ref.read(postUploadProvider.notifier).upload(
-                        //     postedBy: userId,
-                        //     title: 'My 1st post!',
-                        //     message: "This post is for testing only",
-                        //     allowComments: true,
-                        //     fileType: FileType.video,
-                        //     file: file);
-                      },
-                    );
-                  }),
-                ),
-                const CurrentUserProfileView(),
+                HomeTabView(),
+                PostSearchView(),
+                CurrentUserProfileView(),
               ],
             ),
           ),

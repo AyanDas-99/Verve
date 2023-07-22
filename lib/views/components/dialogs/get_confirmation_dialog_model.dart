@@ -18,6 +18,8 @@ extension Present<bool> on GetConfirmationDialogModel<bool> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: regularText(
             title.toString(),
             fontSize: 20,
@@ -27,8 +29,9 @@ extension Present<bool> on GetConfirmationDialogModel<bool> {
             return button(
                 text: entry.key,
                 color: Colors.white,
-                backgroundColor:
-                    (isTrue == true) ? Colors.green : Colors.red.shade500,
+                backgroundColor: (isTrue == true)
+                    ? Colors.green.shade400
+                    : Colors.red.shade500,
                 onPress: () {
                   Navigator.of(context).pop(entry.value);
                 });
