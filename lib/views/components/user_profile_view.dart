@@ -11,7 +11,6 @@ import 'package:verve/state/user_info/providers/user_id_provider.dart';
 import 'package:verve/state/user_info/providers/user_profile_update_provider.dart';
 import 'package:verve/state/user_info/typedefs/user_id.dart';
 import 'package:verve/views/components/animations/profile_search_loading_animation_view.dart';
-import 'package:verve/views/components/animations/search_not_found_animation_view.dart';
 import 'package:verve/views/components/animations/search_not_found_with_text_animation_view.dart';
 import 'package:verve/views/components/button.dart';
 import 'package:verve/views/components/circular_profile_photo.dart';
@@ -328,17 +327,30 @@ class UserProfileView extends ConsumerWidget {
                     height: 10,
                   ),
                   ...userPosts.when(
-                    data: (posts) => posts
-                        .map((post) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: PostTile(
-                                post,
-                              ),
-                            ))
-                        .toList(),
-                    error: (error, stackTrace) =>
-                        [searchNotFoundAnimationView()],
+                    data: (posts) => (posts.isNotEmpty)
+                        ? posts
+                            .map((post) => Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: PostTile(
+                                    post,
+                                  ),
+                                ))
+                            .toList()
+                        : [
+                            SizedBox(
+                              height: 100,
+                              child: searchNotFoundWithTextAnimationView(
+                                  text: Strings.youHaventPostedYet),
+                            )
+                          ],
+                    error: (error, stackTrace) => [
+                      SizedBox(
+                        height: 100,
+                        child: searchNotFoundWithTextAnimationView(
+                            text: Strings.youHaventPostedYet),
+                      )
+                    ],
                     loading: () => [const CircularProgressIndicator()],
                   ),
 

@@ -54,5 +54,6 @@ class Strings {
   static String youSearchedFor = 'You searched for';
   static String encounteredAnError = 'Encountered some error';
   static String postNotFound = 'Post not found';
+  static String youHaventPostedYet = "You haven't posted anything yet";
   Strings._();
 }
