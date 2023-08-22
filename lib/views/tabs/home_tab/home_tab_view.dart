@@ -28,8 +28,11 @@ class HomeTabView extends ConsumerWidget {
               final postsToShow = posts.where(
                   (post) => currentUser.favouriteTags.contains(post.tag));
               if (postsToShow.isEmpty) {
-                return searchNotFoundWithTextAnimationView(
-                    text: Strings.postNotFound);
+                return ListView.builder(
+                  itemBuilder: (context, index) =>
+                      PostTile(posts.elementAt(index)),
+                  itemCount: posts.length,
+                );
               }
               return ListView.builder(
                 itemBuilder: (context, index) =>

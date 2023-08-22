@@ -46,3 +46,4 @@ app.*.map.json
 
 # Todo item for dev
 /lib/.todo
+node_modules
