@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:chewie/chewie.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -27,8 +28,13 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
       videoPlayerController =
           VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl ?? ''));
     } else {
-      videoPlayerController = VideoPlayerController.file(
-          widget.videoFile ?? File(widget.videoFile!.path));
+      if (!kIsWeb) {
+        videoPlayerController = VideoPlayerController.file(
+            widget.videoFile ?? File(widget.videoFile!.path));
+      } else {
+        videoPlayerController =
+            VideoPlayerController.networkUrl(Uri.parse(widget.videoFile!.path));
+      }
     }
 
     videoPlayerController.initialize().then((value) {

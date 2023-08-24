@@ -19,9 +19,9 @@ Widget button({
             borderRadius: BorderRadius.circular(10),
           )),
       onPressed: onPress,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+      child: Wrap(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisSize: MainAxisSize.min,
         children: [
           if (text != null)
             Text(

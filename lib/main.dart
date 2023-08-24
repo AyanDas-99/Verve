@@ -10,13 +10,18 @@ import 'package:verve/views/onboarding/onboarding_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // if (Platform.isAndroid) {
+  //   await Firebase.initializeApp();
+  // } else {
   await Firebase.initializeApp(
       options: const FirebaseOptions(
     apiKey: "AIzaSyBOwtMBWw-43-XihKeS8KhaHDOD2DpMyJc",
     appId: "1:685199959416:web:755174d6797801c169148d",
     projectId: "verve-f9fb9",
     messagingSenderId: "685199959416",
+    storageBucket: "verve-f9fb9.appspot.com",
   ));
+  // }
   runApp(const ProviderScope(child: MyApp()));
 }
 

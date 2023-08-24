@@ -87,6 +87,7 @@ flutter:
     - assets/user.png
     - assets/profile_search.json
     - assets/search-not-found.json
+    - assets/black_image.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

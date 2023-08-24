@@ -19,6 +19,7 @@ import 'package:verve/views/components/text/regular_text.dart';
 import 'package:verve/views/components/user_image_and_name.dart';
 import 'package:verve/views/components/video_player_view.dart';
 import 'package:verve/views/constants/strings.dart';
+import 'package:verve/views/responsive/responsive.dart';
 
 class PostTile extends HookConsumerWidget {
   final Post post;
@@ -38,6 +39,7 @@ class PostTile extends HookConsumerWidget {
     final postFocused = useState(false);
 
     return Container(
+      constraints: BoxConstraints(maxWidth: 400),
       padding: const EdgeInsets.symmetric(
         vertical: 8.0,
       ),
@@ -60,10 +62,11 @@ class PostTile extends HookConsumerWidget {
 
               const Spacer(),
 
-              DateTimeView(
-                post.createdAt,
-                fontSize: 10,
-              ),
+              if (!Responsive.isSmallPhone(context))
+                DateTimeView(
+                  post.createdAt,
+                  fontSize: 10,
+                ),
 
               Padding(
                 padding: const EdgeInsets.only(right: 10),
@@ -71,6 +74,19 @@ class PostTile extends HookConsumerWidget {
               )
             ],
           ),
+
+          if (Responsive.isSmallPhone(context))
+            Row(
+              children: [
+                const Spacer(),
+                Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: DateTimeView(
+                      post.createdAt,
+                      fontSize: 10,
+                    )),
+              ],
+            ),
 
           // tag
           Row(
@@ -119,36 +135,45 @@ class PostTile extends HookConsumerWidget {
           if (postFocused.value) ...[
             // Image or video
             if (post.fileType == FileType.image)
-              AspectRatio(
-                aspectRatio: post.aspectRatio,
-                child: Image.network(
-                  post.originalFileUrl,
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: AspectRatio(
+                  aspectRatio: post.aspectRatio,
+                  child: Image.network(
+                    post.originalFileUrl,
+                  ),
                 ),
               ),
 
             if (post.fileType == FileType.video)
-              VideoPlayerView(
-                true,
-                videoUrl: post.originalFileUrl,
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: VideoPlayerView(
+                  true,
+                  videoUrl: post.originalFileUrl,
+                ),
               ),
           ],
 
           if (!postFocused.value)
             GestureDetector(
               onTap: () => postFocused.value = true,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Image.network(
-                    post.thumbnailUrl,
-                    scale: 0.3,
-                  ),
-                  if (post.fileType == FileType.video)
-                    const FaIcon(
-                      FontAwesomeIcons.circlePlay,
-                      color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.network(
+                      post.thumbnailUrl,
+                      scale: 0.3,
                     ),
-                ],
+                    if (post.fileType == FileType.video)
+                      const FaIcon(
+                        FontAwesomeIcons.circlePlay,
+                        color: Colors.white,
+                      ),
+                  ],
+                ),
               ),
             ),
 
