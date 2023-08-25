@@ -39,7 +39,7 @@ class PostTile extends HookConsumerWidget {
     final postFocused = useState(false);
 
     return Container(
-      constraints: BoxConstraints(maxWidth: 400),
+      constraints: const BoxConstraints(maxWidth: 400),
       padding: const EdgeInsets.symmetric(
         vertical: 8.0,
       ),
