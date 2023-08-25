@@ -55,6 +55,7 @@ dependencies:
   flutter_svg: ^2.0.7
   google_fonts: ^4.0.4
   chewie: ^1.7.0
+  universal_html: ^2.2.3
 
 dev_dependencies:
   flutter_test:

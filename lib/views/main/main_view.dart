@@ -189,6 +189,9 @@ class MainView extends ConsumerWidget {
                       // ),
                     ],
                   )),
+                  const SizedBox(
+                    width: 20,
+                  ),
                 ],
               ),
             ),
