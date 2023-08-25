@@ -1,7 +1,11 @@
+import 'dart:async';
+import 'package:universal_html/html.dart' as html;
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -41,26 +45,36 @@ class PostUploadNotifier extends StateNotifier<IsLoading> {
       switch (fileType) {
         case FileType.image:
           collectionToUpload = FirebaseCollectionNames.images;
-          final fileAsImage = img.decodeImage(file.readAsBytesSync());
+
+          final img.Image? fileAsImage = (kIsWeb)
+              ? img.decodeImage(await filePathToUint8List(file.path))
+              : img.decodeImage(file.readAsBytesSync());
+
           if (fileAsImage == null) {
             isLoading = false;
+            print('img.decodeImage failed');
             throw couldNotGenerateThumbnailException;
           }
           final thumbnail =
               img.copyResize(fileAsImage, width: Constants.imageThumbnailWidth);
+
           final thumbnailData = img.encodeJpg(thumbnail);
           thumbnailUint8List = Uint8List.fromList(thumbnailData);
+
           break;
         case FileType.video:
           collectionToUpload = FirebaseCollectionNames.videos;
-          final thumbnail = await VideoThumbnail.thumbnailData(
-            video: file.path,
-            imageFormat: ImageFormat.JPEG,
-            maxHeight: Constants.videoThumbnailMaxHeight,
-            quality: Constants.videoThumbnailQuality,
-          );
+          final thumbnail = (kIsWeb)
+              ? await filePathToUint8List('assets/black_image.png')
+              : await VideoThumbnail.thumbnailData(
+                  video: file.path,
+                  imageFormat: ImageFormat.JPEG,
+                  maxHeight: Constants.videoThumbnailMaxHeight,
+                  quality: Constants.videoThumbnailQuality,
+                );
           if (thumbnail == null) {
             isLoading = false;
+            print('Could not generate thumbnail');
             throw couldNotGenerateThumbnailException;
           } else {
             thumbnailUint8List = thumbnail;
@@ -88,8 +102,9 @@ class PostUploadNotifier extends StateNotifier<IsLoading> {
 
       final thumbnailUploadTask =
           await thumbnailRef.putData(thumbnailUint8List);
-      final originalFileUploadTask =
-          await originalFileRef.putData(file.readAsBytesSync());
+      final originalFileUploadTask = await originalFileRef.putData((!kIsWeb)
+          ? file.readAsBytesSync()
+          : await filePathToUint8List(file.path));
 
       // get storageId and url of both thumbnail and file
       final thumbnailStorageId = thumbnailUploadTask.ref.name;
@@ -120,7 +135,31 @@ class PostUploadNotifier extends StateNotifier<IsLoading> {
       isLoading = false;
       return true;
     } catch (e) {
+      isLoading = false;
+      print(e);
       return false;
     }
+  }
+
+  Future<Uint8List> filePathToUint8List(String filePath) async {
+    final response =
+        await html.HttpRequest.request(filePath, responseType: 'blob');
+    final blob = response.response as html.Blob;
+
+    final reader = html.FileReader();
+    final completer = Completer<Uint8List>();
+
+    reader.onLoad.listen((event) {
+      final Uint8List uint8list = reader.result as Uint8List;
+      completer.complete(uint8list);
+    });
+
+    reader.onError.listen((error) {
+      completer.completeError(error.toString());
+    });
+
+    reader.readAsArrayBuffer(blob);
+
+    return completer.future;
   }
 }

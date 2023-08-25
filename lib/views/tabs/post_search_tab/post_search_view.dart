@@ -25,24 +25,32 @@ class PostSearchView extends HookConsumerWidget {
     }, [searchController]);
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                  labelText: Strings.enterSearchTerm,
-                  border: const OutlineInputBorder()),
-            ),
-            paddedDivider(height: 20),
-            if (searchTerm.value.isNotEmpty) ...[
-              regularText("${Strings.youSearchedFor} '${searchTerm.value}'"),
+      body: Container(
+        decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 5,
+          )
+        ]),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                    labelText: Strings.enterSearchTerm,
+                    border: const OutlineInputBorder()),
+              ),
               paddedDivider(height: 20),
+              if (searchTerm.value.isNotEmpty) ...[
+                regularText("${Strings.youSearchedFor} '${searchTerm.value}'"),
+                paddedDivider(height: 20),
+              ],
+              SearchedPostsListView(searchTerm.value),
             ],
-            SearchedPostsListView(searchTerm.value),
-          ],
+          ),
         ),
       ),
     );

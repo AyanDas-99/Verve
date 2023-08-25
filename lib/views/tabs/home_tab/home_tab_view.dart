@@ -15,34 +15,42 @@ class HomeTabView extends ConsumerWidget {
     final allPosts = ref.watch(allPostsProvider);
     final currentUser = ref.watch(currentUserProvider);
 
-    return RefreshIndicator(
-      onRefresh: () {
-        ref.invalidate(allPostsProvider);
-        return Future.delayed(const Duration(seconds: 1));
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: allPosts.when(
-          data: (posts) {
-            if (currentUser != null) {
-              final postsToShow = posts.where(
-                  (post) => currentUser.favouriteTags.contains(post.tag));
-              if (postsToShow.isEmpty) {
-                return searchNotFoundWithTextAnimationView(
-                    text: Strings.postNotFound);
+    return Container(
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 5)]),
+      child: RefreshIndicator(
+        onRefresh: () {
+          ref.invalidate(allPostsProvider);
+          return Future.delayed(const Duration(seconds: 1));
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: allPosts.when(
+            data: (posts) {
+              if (currentUser != null) {
+                final postsToShow = posts.where(
+                    (post) => currentUser.favouriteTags.contains(post.tag));
+                if (postsToShow.isEmpty) {
+                  return ListView.builder(
+                    itemBuilder: (context, index) =>
+                        PostTile(posts.elementAt(index)),
+                    itemCount: posts.length,
+                  );
+                }
+                return ListView.builder(
+                  itemBuilder: (context, index) =>
+                      PostTile(postsToShow.elementAt(index)),
+                  itemCount: postsToShow.length,
+                );
+              } else {
+                return profileSearchLoadingAnimationView();
               }
-              return ListView.builder(
-                itemBuilder: (context, index) =>
-                    PostTile(postsToShow.elementAt(index)),
-                itemCount: postsToShow.length,
-              );
-            } else {
-              return profileSearchLoadingAnimationView();
-            }
-          },
-          error: (error, stackTrace) =>
-              searchNotFoundWithTextAnimationView(text: Strings.postNotFound),
-          loading: () => profileSearchLoadingAnimationView(),
+            },
+            error: (error, stackTrace) =>
+                searchNotFoundWithTextAnimationView(text: Strings.postNotFound),
+            loading: () => profileSearchLoadingAnimationView(),
+          ),
         ),
       ),
     );

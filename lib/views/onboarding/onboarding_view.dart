@@ -6,6 +6,7 @@ import 'package:verve/views/onboarding/constants/strings.dart';
 import 'package:verve/views/onboarding/login_view.dart';
 import 'package:verve/views/onboarding/models/onboardind_screen_data.dart';
 import 'package:verve/views/onboarding/onboarding_content_view.dart';
+import 'package:verve/views/responsive/responsive.dart';
 
 class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
@@ -80,6 +81,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
           // bottom bar
           SizedBox(
             height: 80,
+            width: Responsive.isDesktop(context) ? 500 : null,
             child: Row(
               children: [
                 // indicator dots

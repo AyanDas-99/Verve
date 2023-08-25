@@ -21,7 +21,8 @@ class Authenticator {
   Future<AuthResult> loginWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
     final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn().onError((error, stackTrace) {
+        await googleSignIn.signIn().onError((error, stackTrace) async {
+      print(error);
       return null;
     });
     if (googleSignInAccount == null) {

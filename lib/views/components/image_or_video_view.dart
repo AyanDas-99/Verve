@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:verve/state/enums/file_type.dart';
@@ -18,9 +19,15 @@ class ImageOrVideoView extends HookWidget {
     useEffect(() {
       if (fileType == FileType.image && file != null) {
         if (aspectRatio == null) {
-          Image.file(file!)
-              .getImageAspectRatio()
-              .then((value) => aspectRatio = value);
+          if (kIsWeb) {
+            Image.network(file!.path)
+                .getImageAspectRatio()
+                .then((value) => aspectRatio = value);
+          } else {
+            Image.file(file!)
+                .getImageAspectRatio()
+                .then((value) => aspectRatio = value);
+          }
           isReady.value = true;
         } else {
           isReady.value = true;
@@ -41,7 +48,7 @@ class ImageOrVideoView extends HookWidget {
         case FileType.image:
           return AspectRatio(
             aspectRatio: aspectRatio ?? 16 / 9,
-            child: Image.file(file!),
+            child: (kIsWeb) ? Image.network(file!.path) : Image.file(file!),
           );
         default:
           return Container();

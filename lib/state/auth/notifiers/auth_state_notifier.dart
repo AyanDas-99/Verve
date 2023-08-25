@@ -19,7 +19,9 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   Future<bool> loginWithGoogle() async {
     state = state.copyWithLoading(true);
     final result = await _authenticator.loginWithGoogle();
+    print(result);
     if (result != AuthResult.success) {
+      state = state.copyWithLoading(false);
       return false;
     }
     final userId = _authenticator.userId;

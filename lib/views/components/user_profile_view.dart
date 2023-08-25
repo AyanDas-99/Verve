@@ -27,6 +27,7 @@ import 'package:verve/views/components/snackbars/success_snackbar.dart';
 import 'package:verve/views/components/text/regular_text.dart';
 import 'package:verve/views/components/text/title_text.dart';
 import 'package:verve/views/constants/strings.dart';
+import 'package:verve/views/responsive/responsive.dart';
 
 class UserProfileView extends ConsumerWidget {
   final UserId userId;
@@ -60,140 +61,289 @@ class UserProfileView extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // User detail section
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: (!isCurrentUser)
-                            ? null
-                            : () {
-                                ref
-                                    .read(userProfileUpdateProvider.notifier)
-                                    .updatePhoto();
-                              },
-                        child: circularProfilePhoto(
-                          user!.photoUrl,
-                          70,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.displayName,
-                            style: TextStyle(
-                              fontFamily: GoogleFonts.josefinSans().fontFamily,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
 
-                          // Show email address only if isCurrentUser
-                          if (isCurrentUser)
+                  if (!Responsive.isSmallPhone(context))
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: (!isCurrentUser)
+                              ? null
+                              : () {
+                                  ref
+                                      .read(userProfileUpdateProvider.notifier)
+                                      .updatePhoto();
+                                },
+                          child: circularProfilePhoto(
+                            user!.photoUrl,
+                            70,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             Text(
-                              user.email,
+                              user.displayName,
                               style: TextStyle(
                                 fontFamily:
                                     GoogleFonts.josefinSans().fontFamily,
-                                fontSize: 12,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
 
-                          // Show edit button if isCurrentUser is true
-                          // Edit user name button
-                          if (isCurrentUser)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: button(
-                                  backgroundColor: Colors.white,
-                                  // text: 'Edit',
-                                  icon: Icons.edit,
-                                  onPress: () async {
-                                    // Navigate to edit profile page
-                                    final updatedName =
-                                        await TextUpdateDialogModel(
-                                      previousText: user.displayName,
-                                      title: Strings.enterNewName,
-                                    ).present(context);
-                                    if (updatedName != null) {
-                                      final isNameUpdated = await ref
-                                          .read(userProfileUpdateProvider
-                                              .notifier)
-                                          .updateName(updatedName);
+                            // Show email address only if isCurrentUser
+                            if (isCurrentUser)
+                              Text(
+                                user.email,
+                                style: TextStyle(
+                                  fontFamily:
+                                      GoogleFonts.josefinSans().fontFamily,
+                                  fontSize: 12,
+                                ),
+                              ),
 
-                                      if (isNameUpdated && context.mounted) {
-                                        SuccessSnackBar(
-                                                Strings.nameUpdatedSuccessfully)
-                                            .show(context);
-                                      } else if (context.mounted) {
-                                        FailureSnackBar(
-                                                Strings.couldNotUpdateName)
-                                            .show(context);
+                            // Show edit button if isCurrentUser is true
+                            // Edit user name button
+                            if (isCurrentUser)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: button(
+                                    backgroundColor: Colors.white,
+                                    // text: 'Edit',
+                                    icon: Icons.edit,
+                                    onPress: () async {
+                                      // Navigate to edit profile page
+                                      final updatedName =
+                                          await TextUpdateDialogModel(
+                                        previousText: user.displayName,
+                                        title: Strings.enterNewName,
+                                      ).present(context);
+                                      if (updatedName != null) {
+                                        final isNameUpdated = await ref
+                                            .read(userProfileUpdateProvider
+                                                .notifier)
+                                            .updateName(updatedName);
+
+                                        if (isNameUpdated && context.mounted) {
+                                          SuccessSnackBar(Strings
+                                                  .nameUpdatedSuccessfully)
+                                              .show(context);
+                                        } else if (context.mounted) {
+                                          FailureSnackBar(
+                                                  Strings.couldNotUpdateName)
+                                              .show(context);
+                                        }
                                       }
-                                    }
-                                  }),
-                            ),
+                                    }),
+                              ),
 
-                          if (!isCurrentUser)
-                            isFriend.when(
-                              data: (isFriend) {
-                                return (isFriend)
-                                    ? button(
-                                        backgroundColor: Colors.red,
-                                        text: Strings.removeFriend,
-                                        color: Colors.white,
-                                        onPress: () async {
-                                          final isRemoved = await ref
-                                              .read(addAndRemoveFriendsProvider
-                                                  .notifier)
-                                              .removeFriend(userId);
+                            if (!isCurrentUser)
+                              isFriend.when(
+                                data: (isFriend) {
+                                  return (isFriend)
+                                      ? button(
+                                          backgroundColor: Colors.red,
+                                          text: Strings.removeFriend,
+                                          color: Colors.white,
+                                          onPress: () async {
+                                            final isRemoved = await ref
+                                                .read(
+                                                    addAndRemoveFriendsProvider
+                                                        .notifier)
+                                                .removeFriend(userId);
 
-                                          if (context.mounted) {
-                                            if (isRemoved) {
-                                              SuccessSnackBar(Strings
-                                                      .removedFromFriendList)
-                                                  .show(context);
-                                            } else {
-                                              FailureSnackBar(Strings
-                                                      .couldNotRemoveFromFriendList)
-                                                  .show(context);
+                                            if (context.mounted) {
+                                              if (isRemoved) {
+                                                SuccessSnackBar(Strings
+                                                        .removedFromFriendList)
+                                                    .show(context);
+                                              } else {
+                                                FailureSnackBar(Strings
+                                                        .couldNotRemoveFromFriendList)
+                                                    .show(context);
+                                              }
                                             }
-                                          }
-                                        },
-                                      )
-                                    : button(
-                                        backgroundColor: Colors.white,
-                                        text: Strings.addFriend,
-                                        onPress: () async {
-                                          final isAdded = await ref
-                                              .read(addAndRemoveFriendsProvider
-                                                  .notifier)
-                                              .addFriend(userId);
+                                          },
+                                        )
+                                      : button(
+                                          backgroundColor: Colors.white,
+                                          text: Strings.addFriend,
+                                          onPress: () async {
+                                            final isAdded = await ref
+                                                .read(
+                                                    addAndRemoveFriendsProvider
+                                                        .notifier)
+                                                .addFriend(userId);
 
-                                          if (context.mounted) {
-                                            if (isAdded) {
-                                              SuccessSnackBar(
-                                                      Strings.addedAsFriend)
-                                                  .show(context);
-                                            } else {
-                                              FailureSnackBar(Strings
-                                                      .couldNotAddAsFriend)
-                                                  .show(context);
+                                            if (context.mounted) {
+                                              if (isAdded) {
+                                                SuccessSnackBar(
+                                                        Strings.addedAsFriend)
+                                                    .show(context);
+                                              } else {
+                                                FailureSnackBar(Strings
+                                                        .couldNotAddAsFriend)
+                                                    .show(context);
+                                              }
                                             }
-                                          }
-                                        });
-                              },
-                              error: (e, st) =>
-                                  regularText('error loading button'),
-                              loading: () => const CircularProgressIndicator(),
+                                          });
+                                },
+                                error: (e, st) =>
+                                    regularText('error loading button'),
+                                loading: () =>
+                                    const CircularProgressIndicator(),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+
+                  if (Responsive.isSmallPhone(context))
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: (!isCurrentUser)
+                                ? null
+                                : () {
+                                    ref
+                                        .read(
+                                            userProfileUpdateProvider.notifier)
+                                        .updatePhoto();
+                                  },
+                            child: circularProfilePhoto(
+                              user!.photoUrl,
+                              70,
                             ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                user.displayName,
+                                style: TextStyle(
+                                  fontFamily:
+                                      GoogleFonts.josefinSans().fontFamily,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+
+                              // Show email address only if isCurrentUser
+                              if (isCurrentUser)
+                                Text(
+                                  user.email,
+                                  style: TextStyle(
+                                    fontFamily:
+                                        GoogleFonts.josefinSans().fontFamily,
+                                    fontSize: 12,
+                                  ),
+                                ),
+
+                              // Show edit button if isCurrentUser is true
+                              // Edit user name button
+                              if (isCurrentUser)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: button(
+                                      backgroundColor: Colors.white,
+                                      // text: 'Edit',
+                                      icon: Icons.edit,
+                                      onPress: () async {
+                                        // Navigate to edit profile page
+                                        final updatedName =
+                                            await TextUpdateDialogModel(
+                                          previousText: user.displayName,
+                                          title: Strings.enterNewName,
+                                        ).present(context);
+                                        if (updatedName != null) {
+                                          final isNameUpdated = await ref
+                                              .read(userProfileUpdateProvider
+                                                  .notifier)
+                                              .updateName(updatedName);
+
+                                          if (isNameUpdated &&
+                                              context.mounted) {
+                                            SuccessSnackBar(Strings
+                                                    .nameUpdatedSuccessfully)
+                                                .show(context);
+                                          } else if (context.mounted) {
+                                            FailureSnackBar(
+                                                    Strings.couldNotUpdateName)
+                                                .show(context);
+                                          }
+                                        }
+                                      }),
+                                ),
+
+                              if (!isCurrentUser)
+                                isFriend.when(
+                                  data: (isFriend) {
+                                    return (isFriend)
+                                        ? button(
+                                            backgroundColor: Colors.red,
+                                            text: Strings.removeFriend,
+                                            color: Colors.white,
+                                            onPress: () async {
+                                              final isRemoved = await ref
+                                                  .read(
+                                                      addAndRemoveFriendsProvider
+                                                          .notifier)
+                                                  .removeFriend(userId);
+
+                                              if (context.mounted) {
+                                                if (isRemoved) {
+                                                  SuccessSnackBar(Strings
+                                                          .removedFromFriendList)
+                                                      .show(context);
+                                                } else {
+                                                  FailureSnackBar(Strings
+                                                          .couldNotRemoveFromFriendList)
+                                                      .show(context);
+                                                }
+                                              }
+                                            },
+                                          )
+                                        : button(
+                                            backgroundColor: Colors.white,
+                                            text: Strings.addFriend,
+                                            onPress: () async {
+                                              final isAdded = await ref
+                                                  .read(
+                                                      addAndRemoveFriendsProvider
+                                                          .notifier)
+                                                  .addFriend(userId);
+
+                                              if (context.mounted) {
+                                                if (isAdded) {
+                                                  SuccessSnackBar(
+                                                          Strings.addedAsFriend)
+                                                      .show(context);
+                                                } else {
+                                                  FailureSnackBar(Strings
+                                                          .couldNotAddAsFriend)
+                                                      .show(context);
+                                                }
+                                              }
+                                            });
+                                  },
+                                  error: (e, st) =>
+                                      regularText('error loading button'),
+                                  loading: () =>
+                                      const CircularProgressIndicator(),
+                                ),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
 
                   // Friends count
                   TextButton(
@@ -204,7 +354,7 @@ class UserProfileView extends ConsumerWidget {
                               builder: (context) =>
                                   FriendsListView(user.friendsList)));
                     },
-                    child: regularText('${user.friendsList.length} friends'),
+                    child: regularText('${user!.friendsList.length} friends'),
                   ),
 
                   // Show account log out section only if it is currentUser account
