@@ -86,6 +86,7 @@ class MainView extends ConsumerWidget {
       );
     } else {
       return Scaffold(
+        backgroundColor: Colors.white,
         floatingActionButton: isVisible
             ? FloatingActionButton(
                 onPressed: () {
@@ -121,42 +122,75 @@ class MainView extends ConsumerWidget {
                 centerTitle: true,
               )
             ],
-            body: Row(
-              children: [
-                NavigationRail(
-                  destinations: <NavigationRailDestination>[
-                    NavigationRailDestination(
-                        icon: const FaIcon(FontAwesomeIcons.houseChimneyWindow),
-                        label: regularText('Home')),
-                    NavigationRailDestination(
-                        icon: const FaIcon(FontAwesomeIcons.magnifyingGlass),
-                        label: regularText('Search')),
-                    NavigationRailDestination(
-                        icon: const FaIcon(FontAwesomeIcons.user),
-                        label: regularText('Profile')),
-                  ],
-                  selectedIndex: _selectedPage,
-                  onDestinationSelected: (value) =>
-                      ref.read(selectedPage.notifier).state = value,
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-                Flexible(
-                  flex: 9,
-                  child: SizedBox(
-                    width: 500.0.clamp(200, 600),
-                    child: const [
-                      HomeTabView(),
-                      PostSearchView(),
-                      CurrentUserProfileView(),
-                    ][_selectedPage],
+            body: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(
+                children: [
+                  NavigationRail(
+                    labelType: NavigationRailLabelType.all,
+                    destinations: <NavigationRailDestination>[
+                      NavigationRailDestination(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          icon:
+                              const FaIcon(FontAwesomeIcons.houseChimneyWindow),
+                          label: regularText('Home')),
+                      if (!Responsive.isDesktop(context))
+                        NavigationRailDestination(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            icon:
+                                const FaIcon(FontAwesomeIcons.magnifyingGlass),
+                            label: regularText('Search')),
+                      NavigationRailDestination(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          icon: const FaIcon(FontAwesomeIcons.user),
+                          label: regularText('Profile')),
+                    ],
+                    selectedIndex: _selectedPage,
+                    onDestinationSelected: (value) =>
+                        ref.read(selectedPage.notifier).state = value,
                   ),
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-              ],
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Flexible(
+                        flex: 9,
+                        child: SizedBox(
+                          width: 500.0.clamp(200, 600),
+                          child: [
+                            const HomeTabView(),
+                            if (!Responsive.isDesktop(context))
+                              const PostSearchView(),
+                            const CurrentUserProfileView(),
+                          ][_selectedPage],
+                        ),
+                      ),
+                      // if (Responsive.isDesktop(context))
+                      //   const Spacer(
+                      //     flex: 1,
+                      //   ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      if (Responsive.isDesktop(context))
+                        Flexible(
+                          flex: 8,
+                          child: SizedBox(
+                            width: 500.0.clamp(200, 600),
+                            child: PostSearchView(),
+                          ),
+                        ),
+                      Container(),
+                      // const Spacer(
+                      //   flex: 1,
+                      // ),
+                    ],
+                  )),
+                ],
+              ),
             ),
           ),
         ),

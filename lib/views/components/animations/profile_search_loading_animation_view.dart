@@ -3,10 +3,9 @@ import 'package:verve/views/components/animations/lottie_animation_view.dart';
 import 'package:verve/views/constants/asset_files.dart';
 
 Widget profileSearchLoadingAnimationView() {
-  return Expanded(
-      child: LottieAnimationView(
+  return LottieAnimationView(
     animation: AssetFiles.profileSearchAnimation,
     repeat: true,
     reverse: false,
-  ));
+  );
 }
