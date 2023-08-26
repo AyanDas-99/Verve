@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/foundation.dart' show immutable, kIsWeb;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:verve/state/auth/models/auth_result.dart';
@@ -20,11 +20,15 @@ class Authenticator {
   // Google auth
   Future<AuthResult> loginWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn().onError((error, stackTrace) async {
-      print(error);
-      return null;
-    });
+    final GoogleSignInAccount? googleSignInAccount = (kIsWeb)
+        ? await googleSignIn.signInSilently().onError((error, stackTrace) {
+            print(error);
+            return null;
+          })
+        : await googleSignIn.signIn().onError((error, stackTrace) {
+            print(error);
+            return null;
+          });
     if (googleSignInAccount == null) {
       return AuthResult.aborted;
     }
