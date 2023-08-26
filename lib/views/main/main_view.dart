@@ -180,7 +180,7 @@ class MainView extends ConsumerWidget {
                           flex: 8,
                           child: SizedBox(
                             width: 500.0.clamp(200, 600),
-                            child: PostSearchView(),
+                            child: const PostSearchView(),
                           ),
                         ),
                       Container(),
