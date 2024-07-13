@@ -1,16 +1,11 @@
-# verve
+# verve - Unleash Your Creativity, Connect, and Grow | Social Media
 
-A new Flutter project.
+## Social media app and website for creative individuals to connect and inspire one another.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Features
+- Post Images, videos and gifs
+- Like and comment on others’ posts
+- Choose whether to allow comments on specific post or not
+- Search for posts with keyword
+- Select favorite tags to for personalized feed
+- Splash screen
